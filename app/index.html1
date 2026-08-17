@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareWrite AI — Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>CareWrite AI</h1>
+            <p>Dashboard</p>
+            <a href="../index.html" class="back-link">← Back to Main Website</a>
+        </header>
+
+        <main class="app-main">
+            <!-- 🎤 SPEAK A NOTE FEATURE -->
+            <section class="feature-card">
+                <h2>🎤 Speak a Note</h2>
+                <p>Turn voice into professional care records</p>
+
+                <button id="recordBtn" class="btn-record">
+                    🎙️ Start Recording
+                </button>
+
+                <div class="output-area">
+                    <h3>Transcript / Draft</h3>
+                    <textarea id="noteOutput" placeholder="Your note will appear here..."></textarea>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn">✍️ Edit</button>
+                    <button class="btn-primary">✅ Save & Approve</button>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-cards">
+                <div class="card">📝 New Note</div>
+                <div class="card">📋 Care Plans</div>
+                <div class="card">📊 Reports</div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script> <!-- We'll make this next -->
+</body>
+</html>
