@@ -3,97 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CareWrite AI | Dashboard</title>
-
+    <title>CareWrite AI — Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <div class="container">
+        <header class="app-header">
+            <h1>CareWrite AI</h1>
+            <p>Dashboard</p>
+            <a href="../index.html" class="back-link">← Back to Main Website</a>
+        </header>
 
-<header class="header">
+        <main class="app-main">
+            <!-- 🎤 SPEAK A NOTE FEATURE -->
+            <section class="feature-card">
+                <h2>🎤 Speak a Note</h2>
+                <p>Turn voice into professional care records</p>
 
-    <div>
-        <div class="logo">CareWrite AI</div>
-        <div class="tagline">Less paperwork. More care.</div>
+                <button id="recordBtn" class="btn-record">
+                    🎙️ Start Recording
+                </button>
+
+                <div class="output-area">
+                    <h3>Transcript / Draft</h3>
+                    <textarea id="noteOutput" placeholder="Your note will appear here..."></textarea>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn">✍️ Edit</button>
+                    <button class="btn-primary">✅ Save & Approve</button>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-cards">
+                <div class="card">📝 New Note</div>
+                <div class="card">📋 Care Plans</div>
+                <div class="card">📊 Reports</div>
+            </section>
+        </main>
     </div>
 
-    <div>
-        👤 Staff
-    </div>
-
-</header>
-
-
-<main class="container">
-
-    <section class="welcome">
-
-        <h1>Good morning 👋</h1>
-
-        <p>
-            Welcome to your CareWrite AI dashboard.
-        </p>
-
-    </section>
-
-
-    <section class="cards">
-
-        <div class="card">
-            <h3>👥 People Supported</h3>
-            <p>12 people</p>
-        </div>
-
-        <div class="card">
-            <h3>📝 Notes Completed</h3>
-            <p>8 today</p>
-        </div>
-
-        <div class="card">
-            <h3>⏳ Awaiting Review</h3>
-            <p>3 records</p>
-        </div>
-
-        <div class="card">
-            <h3>⚠️ Incidents</h3>
-            <p>1 requires review</p>
-        </div>
-
-    </section>
-
-
-    <section class="actions">
-
-        <h2>What would you like to do?</h2>
-
-        <div class="button-grid">
-
-            <button class="action-button voice">
-                🎙️ Speak a Note
-            </button>
-
-            <button class="action-button">
-                📝 Write a Note
-            </button>
-
-            <button class="action-button">
-                ⚠️ Report an Incident
-            </button>
-
-            <button class="action-button">
-                📋 Care Plan
-            </button>
-
-            <button class="action-button">
-                👥 People
-            </button>
-
-        </div>
-
-    </section>
-
-</main>
-
+    <script src="app.js"></script> <!-- We'll make this next -->
 </body>
 </html>
