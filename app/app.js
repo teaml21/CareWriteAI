@@ -1,53 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareWrite AI — Dashboard</title>
-    <link rel="icon" href="../Logo.png">
-    <link rel="stylesheet" href="style.css">
-    <!-- Debug -->
-    <script src="https://cdn.jsdelivr.net/npm/eruda@2.5.0/eruda.min.js"></script>
-    <script>eruda.init();</script>
-</head>
-<body>
-    <div class="container">
-        <header class="app-header">
-            <h1>CareWrite AI</h1>
-            <p>Care Documentation Dashboard</p>
-            <a href="../index.html" class="back-link">← Back to Main Website</a>
-        </header>
+document.addEventListener('DOMContentLoaded', () => {
+    const recordBtn = document.getElementById('recordBtn');
+    const noteText = document.getElementById('noteText');
+    const editBtn = document.getElementById('editBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const formatBtn = document.getElementById('formatBtn');
 
-        <main class="app-main">
-            <section class="card feature-main">
-                <h2>🎤 Speak a Note</h2>
-                <p>Speak → Auto-Transcribe → AI Formatted Care Record</p>
+    console.log("✅ JS Loaded! Elements found:", !!recordBtn, !!noteText);
 
-                <!-- ✅ EXACT ID -->
-                <button id="recordBtn" class="btn-record">🎙️ Start Recording</button>
+    // Speech API
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
-                <div class="output">
-                    <h3>Your Draft Note</h3>
-                    <!-- ✅ EXACT ID -->
-                    <textarea id="noteText" placeholder="Speech will appear here..." readonly></textarea>
-                </div>
+    if (!recognition) {
+        alert("⚠️ Use Chrome/Edge for voice");
+        return;
+    }
 
-                <div class="actions">
-                    <button id="editBtn" class="btn">✍️ Edit</button>
-                    <button id="saveBtn" class="btn-primary">✅ Save & Approve</button>
-                    <button id="formatBtn" class="btn-secondary">🤖 AI Format</button>
-                </div>
-            </section>
+    recognition.lang = 'en-GB';
+    recognition.interimResults = false;
+    let isRecording = false;
 
-            <div class="grid-cards">
-                <div class="card"><h3>📝 New Note</h3></div>
-                <div class="card"><h3>📁 My Records</h3></div>
-                <div class="card"><h3>👥 Service Users</h3></div>
-                <div class="card"><h3>⚙️ Settings</h3></div>
-            </div>
-        </main>
-    </div>
-    <!-- Load JS LAST -->
-    <script src="app.js"></script>
-</body>
-</html>
+    // 🎤 RECORD BUTTON
+    recordBtn.addEventListener('click', async () => {
+        try {
+            await navigator.mediaDevices.getUserMedia({ audio: true });
+            if (!isRecording) {
+                recognition.start();
+                recordBtn.textContent = "🛑 Stop Recording";
+                recordBtn.style.background = "#ef4444";
+                isRecording = true;
+                console.log("🎙️ Recording started");
+            } else {
+                recognition.stop();
+                recordBtn.textContent = "🎙️ Start Recording";
+                recordBtn.style.background = "#0D9488";
+                isRecording = false;
+                console.log("🛑 Stopped");
+            }
+        } catch (err) {
+            alert("❌ Allow Microphone in site settings!");
+            console.error(err);
+        }
+    });
+
+    // 📥 RESULT
+    recognition.onresult = (e) => {
+        let text = "";
+        for (let i = 0; i < e.results.length; i++) {
+            text += e.results[i][0].transcript;
+        }
+        noteText.value = text;
+        console.log("📝 Text:", text);
+    };
+
+    recognition.onerror = (e) => {
+        alert("❌ Error: " + e.error);
+        isRecording = false;
+        recordBtn.textContent = "🎙️ Start Recording";
+    };
+
+    // OTHER BUTTONS
+    editBtn.onclick = () => noteText.removeAttribute('readonly');
+    saveBtn.onclick = () => alert("✅ Saved!");
+    formatBtn.onclick = () => {
+        if (!noteText.value) return alert("⚠️ Record first");
+        noteText.value = `📅 ${new Date().toLocaleString("en-GB")}\n📍 CareWrite AI\n📝 Note:\n${noteText.value}`;
+    };
+});
