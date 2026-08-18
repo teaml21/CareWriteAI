@@ -1,79 +1,53 @@
-const recordBtn = document.getElementById('recordBtn');
-const noteText = document.getElementById('noteText');
-const editBtn = document.getElementById('editBtn');
-const saveBtn = document.getElementById('saveBtn');
-const formatBtn = document.getElementById('formatBtn');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareWrite AI — Dashboard</title>
+    <link rel="icon" href="../Logo.png">
+    <link rel="stylesheet" href="style.css">
+    <!-- Debug -->
+    <script src="https://cdn.jsdelivr.net/npm/eruda@2.5.0/eruda.min.js"></script>
+    <script>eruda.init();</script>
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>CareWrite AI</h1>
+            <p>Care Documentation Dashboard</p>
+            <a href="../index.html" class="back-link">← Back to Main Website</a>
+        </header>
 
-// Speech Recognition
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+        <main class="app-main">
+            <section class="card feature-main">
+                <h2>🎤 Speak a Note</h2>
+                <p>Speak → Auto-Transcribe → AI Formatted Care Record</p>
 
-if (recognition) {
-    recognition.lang = 'en-GB';
-    recognition.interimResults = false; // Only final text
-    recognition.maxAlternatives = 1;
-} else {
-    alert("⚠️ Use Chrome/Edge for voice");
-}
+                <!-- ✅ EXACT ID -->
+                <button id="recordBtn" class="btn-record">🎙️ Start Recording</button>
 
-let isRecording = false;
+                <div class="output">
+                    <h3>Your Draft Note</h3>
+                    <!-- ✅ EXACT ID -->
+                    <textarea id="noteText" placeholder="Speech will appear here..." readonly></textarea>
+                </div>
 
-// Record Toggle
-recordBtn.addEventListener('click', () => {
-    if (!recognition) return;
+                <div class="actions">
+                    <button id="editBtn" class="btn">✍️ Edit</button>
+                    <button id="saveBtn" class="btn-primary">✅ Save & Approve</button>
+                    <button id="formatBtn" class="btn-secondary">🤖 AI Format</button>
+                </div>
+            </section>
 
-    if (!isRecording) {
-        recognition.start();
-        recordBtn.textContent = "🛑 Stop Recording";
-        recordBtn.style.background = "#0D9488";
-        isRecording = true;
-    } else {
-        recognition.stop();
-        recordBtn.textContent = "🎙️ Start Recording";
-        recordBtn.style.background = "#991b1b";
-        isRecording = false;
-    }
-});
-
-// ✅ THIS IS THE FIXED PART — CLEAR TRANSCRIPT + DISPLAY
-recognition.addEventListener('result', (e) => {
-    let transcript = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-        transcript += e.results[i][0].transcript;
-    }
-    noteText.value = transcript; // Puts text in box
-});
-
-recognition.addEventListener('end', () => {
-    isRecording = false;
-    recordBtn.textContent = "🎙️ Start Recording";
-    recordBtn.style.background = "#991b1b";
-});
-
-recognition.addEventListener('error', (e) => {
-    alert(`Voice Error: ${e.error}`);
-    isRecording = false;
-    recordBtn.textContent = "🎙️ Start Recording";
-});
-
-// Edit
-editBtn.addEventListener('click', () => {
-    noteText.removeAttribute('readonly');
-    noteText.focus();
-});
-
-// Save
-saveBtn.addEventListener('click', () => {
-    alert("✅ Note Saved!");
-    noteText.setAttribute('readonly', true);
-});
-
-// AI Format
-formatBtn.addEventListener('click', () => {
-    if (!noteText.value) return alert("⚠️ Record first!");
-    noteText.value = `📅 ${new Date().toLocaleString("en-GB")}
-📍 Service User: Demo
-📝 Note:
-${noteText.value}
-✅ Ready for records`;
-});
+            <div class="grid-cards">
+                <div class="card"><h3>📝 New Note</h3></div>
+                <div class="card"><h3>📁 My Records</h3></div>
+                <div class="card"><h3>👥 Service Users</h3></div>
+                <div class="card"><h3>⚙️ Settings</h3></div>
+            </div>
+        </main>
+    </div>
+    <!-- Load JS LAST -->
+    <script src="app.js"></script>
+</body>
+</html>
