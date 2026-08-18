@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CareWrite AI — Dashboard</title>
-    <link rel="icon" href="../Logo.png">
+    <!-- ✅ PATHS FIXED: same folder = NO ../ -->
+    <link rel="icon" href="Logo.png">
     <link rel="stylesheet" href="style.css">
+    <!-- Debug -->
     <script src="https://cdn.jsdelivr.net/npm/eruda@2.5.0/eruda.min.js"></script>
     <script>eruda.init();</script>
 </head>
@@ -14,23 +16,31 @@
         <header class="app-header">
             <h1>CareWrite AI</h1>
             <p>Care Documentation Dashboard</p>
+            <!-- ✅ Back to main = ../ -->
             <a href="../index.html" class="back-link">← Back to Main Website</a>
         </header>
+
         <main class="app-main">
             <section class="card feature-main">
                 <h2>🎤 Speak a Note</h2>
                 <p>Speak → Auto-Transcribe → AI Formatted Care Record</p>
+
+                <!-- ✅ EXACT ID: recordBtn + CORRECT BUTTON TEXT -->
                 <button id="recordBtn" class="btn-record">🎙️ Start Recording</button>
+
                 <div class="output">
                     <h3>Your Draft Note</h3>
+                    <!-- ✅ EXACT ID: noteText -->
                     <textarea id="noteText" placeholder="Speech will appear here..." readonly></textarea>
                 </div>
+
                 <div class="actions">
                     <button id="editBtn" class="btn">✍️ Edit</button>
                     <button id="saveBtn" class="btn-primary">✅ Save & Approve</button>
                     <button id="formatBtn" class="btn-secondary">🤖 AI Format</button>
                 </div>
             </section>
+
             <div class="grid-cards">
                 <div class="card"><h3>📝 New Note</h3></div>
                 <div class="card"><h3>📁 My Records</h3></div>
@@ -39,6 +49,8 @@
             </div>
         </main>
     </div>
+
+    <!-- ✅ JS AT END: same folder = app.js -->
     <script src="app.js"></script>
 </body>
 </html>
