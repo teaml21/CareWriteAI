@@ -1,49 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- Add RIGHT BEFORE </head> -->
+<script src="https://cdn.jsdelivr.net/npm/eruda@2.5.0/eruda.min.js"></script>
+<script>eruda.init();</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CareWrite AI — Dashboard</title>
+    <link rel="icon" href="../Logo.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <header class="app-header">
             <h1>CareWrite AI</h1>
-            <p>Dashboard</p>
+            <p>Care Documentation Dashboard</p>
             <a href="../index.html" class="back-link">← Back to Main Website</a>
         </header>
 
+        <!-- Main Dashboard -->
         <main class="app-main">
-            <!-- 🎤 SPEAK A NOTE FEATURE -->
-            <section class="feature-card">
+            <!-- 🎤 FEATURE 1: SPEAK A NOTE (CORE!) -->
+            <section class="card feature-main">
                 <h2>🎤 Speak a Note</h2>
-                <p>Turn voice into professional care records</p>
+                <p>Speak → Auto-Transcribe → AI Formatted Care Record</p>
 
                 <button id="recordBtn" class="btn-record">
                     🎙️ Start Recording
                 </button>
 
-                <div class="output-area">
-                    <h3>Transcript / Draft</h3>
-                    <textarea id="noteOutput" placeholder="Your note will appear here..."></textarea>
+                <div class="output">
+                    <h3>Your Draft Note</h3>
+                    <textarea id="noteText" placeholder="Speech will appear here... AI will refine it for care records." readonly></textarea>
                 </div>
 
-                <div class="action-row">
-                    <button class="btn">✍️ Edit</button>
-                    <button class="btn-primary">✅ Save & Approve</button>
-                </div>
-            </section>
-
-            <!-- Quick Actions -->
-            <section class="quick-cards">
-                <div class="card">📝 New Note</div>
-                <div class="card">📋 Care Plans</div>
-                <div class="card">📊 Reports</div>
-            </section>
-        </main>
-    </div>
-
-    <script src="app.js"></script> <!-- We'll make this next -->
-</body>
-</html>
+                <div class="actions">
+                    <button id="editBtn" class="btn">✍️ Edit</button>
+                    <button id="saveBtn" class="btn-primary">✅ Save & Approve</button>
