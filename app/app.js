@@ -1,49 +1,50 @@
-// Select elements
 const recordBtn = document.getElementById('recordBtn');
-const noteOutput = document.getElementById('noteOutput');
+const noteText = document.getElementById('noteText');
 const editBtn = document.getElementById('editBtn');
 const saveBtn = document.getElementById('saveBtn');
+const formatBtn = document.getElementById('formatBtn');
 
-// Speech Recognition Setup
+// Speech Recognition
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = new SpeechRecognition();
-recognition.continuous = false;
-recognition.interimResults = false;
-recognition.lang = 'en-GB';
+const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+if (recognition) { recognition.lang = 'en-GB'; recognition.continuous = false; }
 
-// Recording State
-let isRecording = false;
+let recording = false;
 
-// Button Click
+// Record Toggle
 recordBtn.addEventListener('click', () => {
-    if (!isRecording) {
+    if (!recognition) { alert('Use Chrome/Edge for voice'); return; }
+    if (!recording) {
         recognition.start();
         recordBtn.textContent = "🛑 Stop Recording";
-        recordBtn.classList.add('recording');
-        isRecording = true;
+        recordBtn.classList.add('active');
+        recording = true;
     } else {
         recognition.stop();
         recordBtn.textContent = "🎙️ Start Recording";
-        recordBtn.classList.remove('recording');
-        isRecording = false;
+        recordBtn.classList.remove('active');
+        recording = false;
     }
 });
 
-// On Result
-recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    noteOutput.value = transcript;
-    // Later: AI formatting here
-};
-
-// Edit Button
-editBtn.addEventListener('click', () => {
-    noteOutput.removeAttribute('readonly');
-    noteOutput.focus();
+// Result
+recognition?.addEventListener('result', e => {
+    const transcript = e.results[0][0].transcript;
+    noteText.value = transcript;
 });
 
-// Save Button
+// Edit
+editBtn.addEventListener('click', () => {
+    noteText.removeAttribute('readonly'); noteText.focus();
+});
+
+// Save
 saveBtn.addEventListener('click', () => {
-    alert("✅ Note Saved (Demo)");
-    noteOutput.setAttribute('readonly', true);
+    alert("✅ Note Saved! (Demo)"); noteText.setAttribute('readonly', true);
+});
+
+// AI Format (simulate)
+formatBtn.addEventListener('click', () => {
+    if (!noteText.value) return alert('Record first!');
+    noteText.value = `📅 ${new Date().toLocaleString()}\n📍 Service: CareWrite Demo\n📝 Note:\n• ${noteText.value.split('.').join('.\n• ')}`;
 });
