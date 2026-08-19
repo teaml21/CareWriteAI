@@ -65,6 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 🤖 FORMAT BUTTON
     formatBtn?.addEventListener('click', () => {
+        // GET SELECTED USER
+        const selectedUser = document.getElementBYID ('serviceUser')?. value ||'[Name]';
+        
         if (!noteText.value) return alert("⚠️ Record first!");
         noteText.value = `📅 ${new Date().toLocaleString("en-GB")}
 👤 Service User: [Name]
