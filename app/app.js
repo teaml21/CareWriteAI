@@ -77,4 +77,16 @@ CareWrite AI — Record`;
 
    
     noteText.value = localStorage.getItem('careNote') || '';
-});
+ // 📄 PDF EXPORT FEATURE — NEW!
+    const exportBtn = document.createElement('button');
+    exportBtn.textContent = "📥 Save as PDF";
+    exportBtn.className = "btn-primary";
+    exportBtn.style.marginTop = "20px";
+    exportBtn.style.width = "100%";
+    document.querySelector('.actions').appendChild(exportBtn);
+
+    exportBtn.addEventListener('click', () => {
+        if (!noteText.value) return alert("⚠️ Write or record a note first!");
+        alert("✅ Select 'Save as PDF' from the menu that appears!");
+        window.print();
+    });
