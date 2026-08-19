@@ -36,3 +36,10 @@ h3 { color:#fff; margin-bottom:8px; }
 /* Grid */
 .grid-cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:15px; margin-top:30px; }
  
+/* 📄 PRINT / PDF VIEW */
+@media print {
+    body { background: white; color: black; }
+    .app-header, .actions, .grid-cards, .back-link, button { display: none !important; }
+    .container { max-width: 100%; margin: 0; padding: 20px; }
+    textarea { background: white; color: black; border: none; width: 100%; min-height: auto; }
+}
