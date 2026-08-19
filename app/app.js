@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     recognition.interimResults = true;
     let isRecording = false;
 
+    // 🎤 RECORD BUTTON
     recordBtn.addEventListener('click', async () => {
         try {
             await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ✅ SPEECH → TEXT — THIS MUST WORK!
     recognition.addEventListener('result', (e) => {
         let transcript = '';
         for (let i = e.resultIndex; i < e.results.length; i++) {
@@ -51,14 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
         recordBtn.textContent = "🎙️ Start Recording";
     });
 
+    // ✍️ EDIT BUTTON
     editBtn?.addEventListener('click', () => noteText.removeAttribute('readonly'));
 
+    // 💾 SAVE BUTTON
     saveBtn?.addEventListener('click', () => {
         localStorage.setItem('careNote', noteText.value);
         alert("✅ Saved!");
         noteText.setAttribute('readonly', true);
     });
 
+    // 🤖 FORMAT BUTTON
     formatBtn?.addEventListener('click', () => {
         if (!noteText.value) return alert("⚠️ Record first!");
         noteText.value = `📅 ${new Date().toLocaleString("en-GB")}
@@ -75,9 +80,7 @@ ${noteText.value}
 CareWrite AI — Record`;
     });
 
-   
-    noteText.value = localStorage.getItem('careNote') || '';
- // 📄 PDF EXPORT FEATURE — NEW!
+    // 📄 PDF BUTTON — PLACED SAFELY AT END
     const exportBtn = document.createElement('button');
     exportBtn.textContent = "📥 Save as PDF";
     exportBtn.className = "btn-primary";
@@ -87,6 +90,10 @@ CareWrite AI — Record`;
 
     exportBtn.addEventListener('click', () => {
         if (!noteText.value) return alert("⚠️ Write or record a note first!");
-        alert("✅ Select 'Save as PDF' from the menu that appears!");
+        alert("✅ Select 'Save as PDF' from the menu!");
         window.print();
     });
+
+    // ✅ LOAD SAVED NOTE
+    noteText.value = localStorage.getItem('careNote') || '';
+});
