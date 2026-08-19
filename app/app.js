@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const recordBtn = document.getElementById('recordBtn');
-    const noteText = document.getElementById('noteText');
+const noteText = document.getElementById('noteText');
     const editBtn = document.getElementById('editBtn');
     const saveBtn = document.getElementById('saveBtn');
     const formatBtn = document.getElementById('formatBtn');
