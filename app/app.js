@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     recognition.interimResults = true;
     let isRecording = false;
 
-    // 🎤 RECORD BUTTON
+    // 🎤 RECORD BUTTON — WORKS FIRST!
     recordBtn.addEventListener('click', async () => {
         try {
             await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ✅ SPEECH → TEXT — THIS MUST WORK!
+    // ✅ SPEECH → TEXT — THIS IS WHAT MATTERS!
     recognition.addEventListener('result', (e) => {
         let transcript = '';
         for (let i = e.resultIndex; i < e.results.length; i++) {
@@ -80,19 +80,22 @@ ${noteText.value}
 CareWrite AI — Record`;
     });
 
-    // 📄 PDF BUTTON — PLACED SAFELY AT END
-    const exportBtn = document.createElement('button');
-    exportBtn.textContent = "📥 Save as PDF";
-    exportBtn.className = "btn-primary";
-    exportBtn.style.marginTop = "20px";
-    exportBtn.style.width = "100%";
-    document.querySelector('.actions').appendChild(exportBtn);
+    // 📄 PDF BUTTON — MADE SAFE NOW!
+    const actionsDiv = document.querySelector('.actions');
+    if (actionsDiv) {
+        const exportBtn = document.createElement('button');
+        exportBtn.textContent = "📥 Save as PDF";
+        exportBtn.className = "btn-primary";
+        exportBtn.style.marginTop = "20px";
+        exportBtn.style.width = "100%";
+        actionsDiv.appendChild(exportBtn);
 
-    exportBtn.addEventListener('click', () => {
-        if (!noteText.value) return alert("⚠️ Write or record a note first!");
-        alert("✅ Select 'Save as PDF' from the menu!");
-        window.print();
-    });
+        exportBtn.addEventListener('click', () => {
+            if (!noteText.value) return alert("⚠️ Write or record a note first!");
+            alert("✅ Select 'Save as PDF' from the menu!");
+            window.print();
+        });
+    }
 
     // ✅ LOAD SAVED NOTE
     noteText.value = localStorage.getItem('careNote') || '';
