@@ -1,59 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("✅ PAGE LOADED");
-
     const recordBtn = document.getElementById('recordBtn');
     const noteText = document.getElementById('noteText');
+    const serviceUserSelect = document.getElementById('serviceUser');
 
-    console.log("🔍 recordBtn found:", !!recordBtn);
-    console.log("🔍 noteText found:", !!noteText);
-
-    if (!recordBtn || !noteText) {
-        alert("❌ BUTTON OR TEXTBOX ID WRONG! Check HTML matches: recordBtn / noteText");
-        return;
-    }
+    console.log('✅ JS loaded');
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
     if (!recognition) {
-        alert("⚠️ Use Chrome or Edge browser");
+        alert('⚠️ Use Chrome/Edge');
         return;
     }
 
     recognition.lang = 'en-GB';
     let isRecording = false;
 
-    recordBtn.addEventListener('click', async () => {
-        console.log("🎤 BUTTON CLICKED");
+    recordBtn?.addEventListener('click', async () => {
         try {
-            await navigator.mediaDevices.getUserMedia({ audio: true });
+            await navigator.mediaDevices.getUserMedia({audio:true});
             if (!isRecording) {
                 recognition.start();
-                recordBtn.textContent = "🛑 STOP";
+                recordBtn.textContent = '🛑 Stop';
                 isRecording = true;
-                console.log("✅ RECORDING STARTED");
             } else {
                 recognition.stop();
-                recordBtn.textContent = "🎙️ RECORD";
+                recordBtn.textContent = '🎙️ Record';
                 isRecording = false;
             }
-        } catch (e) {
-            alert("❌ CLICK 🔒 IN ADDRESS BAR → ALLOW MICROPHONE");
-        }
+        } catch { alert('❌ Allow mic!'); }
     });
 
-    recognition.addEventListener('result', (e) => {
-        let text = '';
-        for (let i = e.resultIndex; i < e.results.length; i++) {
-            text += e.results[i][0].transcript;
-        }
-        noteText.value = text;
-        console.log("📝 TEXT:", text);
+    recognition.addEventListener('result', e => {
+        let t = '';
+        for (let i=e.resultIndex; i<e.results.length; i++)
+            t += e.results[i][0].transcript;
+        noteText.value = t;
     });
 
-    recognition.addEventListener('error', (e) => {
-        alert("❌ ERROR: " + e.error);
+    recognition.addEventListener('error', () => {
         isRecording = false;
-        recordBtn.textContent = "🎙️ RECORD";
+        recordBtn.textContent = '🎙️ Record';
     });
+
+    // Format & templates
+    document.getElementById('formatBtn')?.addEventListener('click', formatNote);
+    document.getElementById('tplDaily')?.addEventListener('click', formatNote);
+    document.getElementById('tplIncident')?.addEventListener('click', formatNote);
+    document.getElementById('tplMed')?.addEventListener('click', formatNote);
+    document.getElementById('tplHandover')?.addEventListener('click', formatNote);
+
+    function formatNote() {
+        const user = serviceUserSelect?.value || '[Name]';
+        noteText.value = `📅 ${new Date().toLocaleString('en-GB')}\n👤 ${user}\n📝 ${noteText.value}`;
+    }
+
+    noteText.value = localStorage.getItem('careNote') || '';
 });
