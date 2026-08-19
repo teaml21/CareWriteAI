@@ -1,5 +1,5 @@
 // 🔒 PIN LOCK SYSTEM — CONFIGURE YOUR PIN HERE
-const CORRECT_PIN = "1234"; // ✅ CHANGE THIS TO YOUR OWN 4-DIGIT PIN!
+const CORRECT_PIN = "1207"; // ✅ CHANGE THIS TO YOUR OWN 4-DIGIT PIN!
 
 document.addEventListener('DOMContentLoaded', () => {
     const pinLock = document.getElementById('pinLock');
