@@ -1,14 +1,23 @@
-</head>
 <body>
-
-  <!-- 🔒 PIN LOCK SCREEN -->
-<div id="pinLock" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#1a1111;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;">
+<!-- 🔒 PIN SCREEN — EXACTLY THIS -->
+<div id="pinLock" style="position:fixed;inset:0;background:#1a1111;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;">
     <h2 style="color:#0D9488;margin-bottom:20px;">🔒 CareWrite AI</h2>
     <p style="color:#ccc;">Enter 4-digit PIN to unlock</p>
     <input type="password" id="pinInput" maxlength="4" placeholder="••••" style="padding:15px;font-size:24px;width:150px;text-align:center;letter-spacing:10px;border-radius:8px;border:2px solid #444;background:#2a1f1f;color:white;margin:15px 0;">
     <button id="pinUnlock" class="btn-primary" style="width:150px;">🔓 Unlock</button>
     <p style="color:#666;font-size:12px;margin-top:15px;">Default PIN: 1207</p>
-</div>  
+</div>
+
+<!-- ✅ APP WRAPPER — MUST BE HERE -->
+<div id="appContent" style="opacity:0;transition:opacity 0.4s ease;">
+
+    <!-- YOUR FULL APP CONTENT HERE -->
+    <!-- (buttons, textarea, etc.) -->
+
+</div>
+
+<script src="app.js"></script>
+</body>
 <!-- YOUR EXISTING APP CONTENT STARTS HERE -->
     <div id="appContent" style="opacity:0;transition:opacity 0.5s ease;">
 <!DOCTYPE html>
