@@ -98,6 +98,110 @@ CareWrite AI — Record`;
             alert("✅ Select 'Save as PDF' from the menu!");
             window.print();
         });
+        // 📋 DAILY NOTE TEMPLATE
+    document.getElementById('tplDaily')?.addEventListener('click', () => {
+        const user = document.getElementById('serviceUser')?.value || '[Name]';
+        if (!noteText.value) return alert("⚠️ Record or type first!");
+        noteText.value = `📅 ${new Date().toLocaleString("en-GB")}
+👤 Service User: ${user}
+📋 Type: Daily Support Note
+────────────────────────────────────
+📝 Observation:
+${noteText.value}
+
+✅ Actions Completed:
+• Support provided as needed
+• Observed well-being & mood
+• Hydration / meals monitored
+────────────────────────────────────
+CareWrite AI — Daily Record`;
+    });
+
+    // ⚠️ INCIDENT REPORT TEMPLATE
+    document.getElementById('tplIncident')?.addEventListener('click', () => {
+        const user = document.getElementById('serviceUser')?.value || '[Name]';
+        if (!noteText.value) return alert("⚠️ Record or type first!");
+        noteText.value = `⚠️ INCIDENT / CONCERN REPORT
+📅 Date/Time: ${new Date().toLocaleString("en-GB")}
+👤 Service User: ${user}
+
+📝 What Happened:
+${noteText.value}
+
+👥 Who Was Involved:
+• Staff Present: _______________
+• Witnesses: _______________
+
+✅ Action Taken / Outcome:
+• Immediate action: _______________
+• Reported to: _______________
+• Follow-up needed: Yes / No
+
+🖊️ Staff Signature: _______________
+────────────────────────────────────
+CareWrite AI — Incident Log`;
+    });
+
+    // 💊 MEDICATION RECORD TEMPLATE
+    document.getElementById('tplMed')?.addEventListener('click', () => {
+        const user = document.getElementById('serviceUser')?.value || '[Name]';
+        if (!noteText.value) return alert("⚠️ Record or type first!");
+        noteText.value = `💊 MEDICATION ADMINISTRATION
+📅 Date: ${new Date().toLocaleString("en-GB")}
+👤 Service User: ${user}
+
+💊 Medication Given:
+${noteText.value}
+
+✅ Details:
+• Time: _______________
+• Dose: _______________
+• Route: Oral / Topical / Other
+• Given by: _______________
+• Witnessed by: _______________
+
+🟢 Outcome / Observation:
+• Taken ✅ Refused ⚠️ Not Given ❌
+• Any side effects noted: _______________
+────────────────────────────────────
+CareWrite AI — Med Log`;
+    });
+
+    // 🔄 HANDOVER NOTE TEMPLATE
+    document.getElementById('tplHandover')?.addEventListener('click', () => {
+        const user = document.getElementById('serviceUser')?.value || '[Name]';
+        if (!noteText.value) return alert("⚠️ Record or type first!");
+        noteText.value = `🔄 SHIFT HANDOVER NOTE
+📅 Date: ${new Date().toLocaleString("en-GB")}
+👤 Service User: ${user}
+👤 Handover From: _______________
+👤 Handover To: _______________
+
+📝 Key Updates / Notes:
+${noteText.value}
+
+⚠️ Urgent / Priority Actions:
+• _______________
+• _______________
+
+✅ Tasks for Next Shift:
+• _______________
+• _______________
+────────────────────────────────────
+CareWrite AI — Handover`;
+    });
+✅ Step 3: Add Button Styling (Optional — looks better!)
+Add this to style.css at the end:
+css
+/* 📋 TEMPLATE BUTTONS ROW */
+.actions {
+    gap: 10px;
+    margin-top: 20px;
+}
+.btn {
+    font-size: 14px;
+    padding: 12px 10px;
+}
     }
 
     // ✅ LOAD SAVED NOTE
