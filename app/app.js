@@ -5,11 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveBtn = document.getElementById('saveBtn');
     const formatBtn = document.getElementById('formatBtn');
 
+    // 🎤 SPEECH RECOGNITION — FIRST & SAFE
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
     if (!recognition) {
-        alert("⚠️ Use Chrome or Edge");
+        alert("⚠️ Use Chrome/Edge for voice");
         return;
     }
 
@@ -17,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     recognition.interimResults = true;
     let isRecording = false;
 
-    // 🎤 RECORD BUTTON — WORKS FIRST!
     recordBtn.addEventListener('click', async () => {
         try {
             await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ✅ SPEECH → TEXT — THIS IS WHAT MATTERS!
+    // ✅ SPEECH → TEXT — CRITICAL!
     recognition.addEventListener('result', (e) => {
         let transcript = '';
         for (let i = e.resultIndex; i < e.results.length; i++) {
@@ -63,239 +63,93 @@ document.addEventListener('DOMContentLoaded', () => {
         noteText.setAttribute('readonly', true);
     });
 
-    // 🤖 FORMAT BUTTON
+    // 🤖 AI FORMAT
     formatBtn?.addEventListener('click', () => {
-        // GET SELECTED USER
-        const selectedUser = document.getElementBYID ('serviceUser')?. value ||'[Name]';
-        
+        const user = document.getElementById('serviceUser')?.value || '[Name]';
         if (!noteText.value) return alert("⚠️ Record first!");
         noteText.value = `📅 ${new Date().toLocaleString("en-GB")}
-👤 Service User: [Name]
+👤 Service User: ${user}
 📍 Type: Daily Support
 ────────────────────────────────────
 📝 Observation:
 ${noteText.value}
-
 ✅ Action Taken:
-• Support provided as needed
-• Observed well-being
+• Support provided
+• Wellbeing observed
 ────────────────────────────────────
-CareWrite AI — Record`;
+CareWrite AI`;
     });
 
-    // 📄 PDF BUTTON — MADE SAFE NOW!
+    // 📄 PDF BUTTON — SAFE ORDER
     const actionsDiv = document.querySelector('.actions');
     if (actionsDiv) {
         const exportBtn = document.createElement('button');
-        exportBtn.textContent = "📥 Save as PDF";
+        exportBtn.textContent = "📥 Save PDF";
         exportBtn.className = "btn-primary";
-        exportBtn.style.marginTop = "20px";
+        exportBtn.style.marginTop = "15px";
         exportBtn.style.width = "100%";
         actionsDiv.appendChild(exportBtn);
 
         exportBtn.addEventListener('click', () => {
-            if (!noteText.value) return alert("⚠️ Write or record a note first!");
-            alert("✅ Select 'Save as PDF' from the menu!");
+            if (!noteText.value) return alert("⚠️ No note!");
             window.print();
         });
-        // 📋 DAILY NOTE TEMPLATE
-    document.getElementById('tplDaily')?.addEventListener('click', () => {
-        const user = document.getElementById('serviceUser')?.value || '[Name]';
-        if (!noteText.value) return alert("⚠️ Record or type first!");
-        noteText.value = `📅 ${new Date().toLocaleString("en-GB")}
-👤 Service User: ${user}
-📋 Type: Daily Support Note
-────────────────────────────────────
-📝 Observation:
-${noteText.value}
-
-✅ Actions Completed:
-• Support provided as needed
-• Observed well-being & mood
-• Hydration / meals monitored
-────────────────────────────────────
-CareWrite AI — Daily Record`;
-    });
-
-    // ⚠️ INCIDENT REPORT TEMPLATE
-    document.getElementById('tplIncident')?.addEventListener('click', () => {
-        const user = document.getElementById('serviceUser')?.value || '[Name]';
-        if (!noteText.value) return alert("⚠️ Record or type first!");
-        noteText.value = `⚠️ INCIDENT / CONCERN REPORT
-📅 Date/Time: ${new Date().toLocaleString("en-GB")}
-👤 Service User: ${user}
-
-📝 What Happened:
-${noteText.value}
-
-👥 Who Was Involved:
-• Staff Present: _______________
-• Witnesses: _______________
-
-✅ Action Taken / Outcome:
-• Immediate action: _______________
-• Reported to: _______________
-• Follow-up needed: Yes / No
-
-🖊️ Staff Signature: _______________
-────────────────────────────────────
-CareWrite AI — Incident Log`;
-    });
-
-    // 💊 MEDICATION RECORD TEMPLATE
-    document.getElementById('tplMed')?.addEventListener('click', () => {
-        const user = document.getElementById('serviceUser')?.value || '[Name]';
-        if (!noteText.value) return alert("⚠️ Record or type first!");
-        noteText.value = `💊 MEDICATION ADMINISTRATION
-📅 Date: ${new Date().toLocaleString("en-GB")}
-👤 Service User: ${user}
-
-💊 Medication Given:
-${noteText.value}
-
-✅ Details:
-• Time: _______________
-• Dose: _______________
-• Route: Oral / Topical / Other
-• Given by: _______________
-• Witnessed by: _______________
-
-🟢 Outcome / Observation:
-• Taken ✅ Refused ⚠️ Not Given ❌
-• Any side effects noted: _______________
-────────────────────────────────────
-CareWrite AI — Med Log`;
-    });
-
-    // 🔄 HANDOVER NOTE TEMPLATE
-    document.getElementById('tplHandover')?.addEventListener('click', () => {
-        const user = document.getElementById('serviceUser')?.value || '[Name]';
-        if (!noteText.value) return alert("⚠️ Record or type first!");
-        noteText.value = `🔄 SHIFT HANDOVER NOTE
-📅 Date: ${new Date().toLocaleString("en-GB")}
-👤 Service User: ${user}
-👤 Handover From: _______________
-👤 Handover To: _______________
-
-📝 Key Updates / Notes:
-${noteText.value}
-
-⚠️ Urgent / Priority Actions:
-• _______________
-• _______________
-
-✅ Tasks for Next Shift:
-• _______________
-• _______________
-────────────────────────────────────
-CareWrite AI — Handover`;
-    });
-✅ Step 3: Add Button Styling (Optional — looks better!)
-Add this to style.css at the end:
-css
-/* 📋 TEMPLATE BUTTONS ROW */
-.actions {
-    gap: 10px;
-    margin-top: 20px;
-}
-.btn {
-    font-size: 14px;
-    padding: 12px 10px;
-}
     }
 
-    // ✅ LOAD SAVED NOTE
-    noteText.value = localStorage.getItem('careNote') || '';
-        // 📋 DAILY NOTE TEMPLATE
+    // 📋 TEMPLATES — ALL 4
     document.getElementById('tplDaily')?.addEventListener('click', () => {
         const user = document.getElementById('serviceUser')?.value || '[Name]';
-        if (!noteText.value) return alert("⚠️ Record or type first!");
+        if (!noteText.value) return alert("⚠️ Record first!");
         noteText.value = `📅 ${new Date().toLocaleString("en-GB")}
 👤 Service User: ${user}
-📋 Type: Daily Support Note
+📋 Daily Note
 ────────────────────────────────────
 📝 Observation:
 ${noteText.value}
-
-✅ Actions Completed:
-• Support provided as needed
-• Observed well-being & mood
-• Hydration / meals monitored
+✅ Actions:
+• Support given
+• Mood/Health checked
 ────────────────────────────────────
-CareWrite AI — Daily Record`;
+CareWrite AI`;
     });
 
-    // ⚠️ INCIDENT REPORT TEMPLATE
     document.getElementById('tplIncident')?.addEventListener('click', () => {
         const user = document.getElementById('serviceUser')?.value || '[Name]';
-        if (!noteText.value) return alert("⚠️ Record or type first!");
-        noteText.value = `⚠️ INCIDENT / CONCERN REPORT
-📅 Date/Time: ${new Date().toLocaleString("en-GB")}
+        if (!noteText.value) return alert("⚠️ Record first!");
+        noteText.value = `⚠️ INCIDENT
+📅 ${new Date().toLocaleString("en-GB")}
 👤 Service User: ${user}
-
-📝 What Happened:
+📝 Event:
 ${noteText.value}
-
-👥 Who Was Involved:
-• Staff Present: _______________
-• Witnesses: _______________
-
-✅ Action Taken / Outcome:
-• Immediate action: _______________
-• Reported to: _______________
-• Follow-up needed: Yes / No
-
-🖊️ Staff Signature: _______________
+✅ Action:
 ────────────────────────────────────
-CareWrite AI — Incident Log`;
+CareWrite AI`;
     });
 
-    // 💊 MEDICATION RECORD TEMPLATE
     document.getElementById('tplMed')?.addEventListener('click', () => {
         const user = document.getElementById('serviceUser')?.value || '[Name]';
-        if (!noteText.value) return alert("⚠️ Record or type first!");
-        noteText.value = `💊 MEDICATION ADMINISTRATION
-📅 Date: ${new Date().toLocaleString("en-GB")}
+        if (!noteText.value) return alert("⚠️ Record first!");
+        noteText.value = `💊 MEDICATION
+📅 ${new Date().toLocaleString("en-GB")}
 👤 Service User: ${user}
-
-💊 Medication Given:
+💊 Details:
 ${noteText.value}
-
-✅ Details:
-• Time: _______________
-• Dose: _______________
-• Route: Oral / Topical / Other
-• Given by: _______________
-• Witnessed by: _______________
-
-🟢 Outcome / Observation:
-• Taken ✅ Refused ⚠️ Not Given ❌
-• Any side effects noted: _______________
 ────────────────────────────────────
-CareWrite AI — Med Log`;
+CareWrite AI`;
     });
 
-    // 🔄 HANDOVER NOTE TEMPLATE
     document.getElementById('tplHandover')?.addEventListener('click', () => {
         const user = document.getElementById('serviceUser')?.value || '[Name]';
-        if (!noteText.value) return alert("⚠️ Record or type first!");
-        noteText.value = `🔄 SHIFT HANDOVER NOTE
-📅 Date: ${new Date().toLocaleString("en-GB")}
+        if (!noteText.value) return alert("⚠️ Record first!");
+        noteText.value = `🔄 HANDOVER
+📅 ${new Date().toLocaleString("en-GB")}
 👤 Service User: ${user}
-👤 Handover From: _______________
-👤 Handover To: _______________
-
-📝 Key Updates / Notes:
+📝 Notes:
 ${noteText.value}
-
-⚠️ Urgent / Priority Actions:
-• _______________
-• _______________
-
-✅ Tasks for Next Shift:
-• _______________
-• _______________
 ────────────────────────────────────
-CareWrite AI — Handover`;
+CareWrite AI`;
     });
-});
+
+    // 📂 LOAD SAVED NOTE
+    noteText.value = localStorage.getItem('careNote') || '';
+}); // ✅ FINAL CLOSING BRACKET — MISSING EARLIER!
