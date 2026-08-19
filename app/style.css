@@ -95,5 +95,13 @@ h3 { color:#fff; margin-bottom:8px; }
                         <option value="Other">Other / Not Listed</option>
                     </select>
                 </div>
-
+/* 📋 TEMPLATE BUTTONS ROW */
+.actions {
+    gap: 10px;
+    margin-top: 20px;
+}
+.btn {
+    font-size: 14px;
+    padding: 12px 10px;
+}
                
