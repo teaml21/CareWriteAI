@@ -165,3 +165,7 @@ CareWrite AI`;
             window.print();
         });
     }
+
+    // ✅ LOAD SAVED NOTE ON START
+    noteText.value = localStorage.getItem('careNote') || '';
+});
