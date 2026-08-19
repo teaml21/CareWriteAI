@@ -1,96 +1,94 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 🔍 CHECK ELEMENTS FIRST
     const recordBtn = document.getElementById('recordBtn');
     const noteText = document.getElementById('noteText');
     const editBtn = document.getElementById('editBtn');
     const saveBtn = document.getElementById('saveBtn');
     const formatBtn = document.getElementById('formatBtn');
 
-    console.log("🔍 Button found:", !!recordBtn);
-    console.log("🔍 Textarea found:", !!noteText);
+    console.log("✅ JS Loaded!");
 
-    if (!noteText) {
-        alert("❌ FATAL: Textarea ID must be exactly: noteText");
-        return;
-    }
-
-    // 🎤 SPEECH SETUP
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
     if (!recognition) {
-        alert("❌ ONLY WORKS: Chrome / Edge (Android/Desktop)");
+        alert("⚠️ Use Chrome/Edge for voice");
         return;
     }
 
     recognition.lang = 'en-GB';
-    recognition.interimResults = false;
-    recognition.continuous = false;
+    recognition.interimResults = true; // ✅ LIVE TEXT WHILE SPEAKING
+    recognition.maxAlternatives = 1;
     let isRecording = false;
+    let finalTranscript = '';
 
-    // 🎙️ RECORD BUTTON
     recordBtn.addEventListener('click', async () => {
         try {
-            // 🔒 FORCE MIC PERMISSION
             await navigator.mediaDevices.getUserMedia({ audio: true });
-
             if (!isRecording) {
                 recognition.start();
-                recordBtn.textContent = "🛑 STOP";
+                recordBtn.textContent = "🛑 Stop Recording";
                 recordBtn.style.background = "#ef4444";
-                noteText.value = "🎤 Recording... Speak now";
-                console.log("✅ Recording started");
+                finalTranscript = '';
+                noteText.value = '🎙️ Listening...';
                 isRecording = true;
             } else {
                 recognition.stop();
-                recordBtn.textContent = "🎙️ START";
-                recordBtn.style.background = "#0D9488";
-                console.log("✅ Stopped");
+                recordBtn.textContent = "🎙️ Start Recording";
+                recordBtn.style.background = "#991b1b";
                 isRecording = false;
             }
         } catch (err) {
-            alert("❌ MIC BLOCKED! Tap 🔒 in address bar → Allow");
-            console.error(err);
+            alert("❌ Allow Microphone in site settings!");
         }
     });
 
-    // ✅ THIS IS THE GUARANTEED TEXT INJECTION
-    recognition.onresult = (event) => {
-        console.log("📥 Result event:", event.results);
-        let output = "";
-        for (let i = 0; i < event.results.length; i++) {
-            output += event.results[i][0].transcript;
+    // ✅ LIVE + FINAL TEXT
+    recognition.addEventListener('result', (e) => {
+        let interim = '';
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+            const text = e.results[i][0].transcript;
+            if (e.results[i].isFinal) finalTranscript += text + ' ';
+            else interim += text;
         }
-        noteText.value = output;
-        console.log("✅ TEXT SET TO BOX:", output);
-    };
-
-    // ⚠️ ERROR HANDLING
-    recognition.onerror = (e) => {
-        alert("❌ Voice Error: " + e.error);
-        noteText.value = "⚠️ Error — try again";
-        isRecording = false;
-        recordBtn.textContent = "🎙️ START";
-    };
-
-    recognition.onend = () => {
-        isRecording = false;
-        recordBtn.textContent = "🎙️ START";
-    };
-
-    // OTHER BUTTONS
-    editBtn?.addEventListener('click', () => {
-        noteText.removeAttribute('readonly');
-        noteText.focus();
+        noteText.value = finalTranscript + interim;
     });
+
+    recognition.addEventListener('end', () => {
+        isRecording = false;
+        recordBtn.textContent = "🎙️ Start Recording";
+        recordBtn.style.background = "#0D9488";
+    });
+
+    recognition.addEventListener('error', (e) => {
+        alert("❌ Error: " + e.error);
+        isRecording = false;
+        recordBtn.textContent = "🎙️ Start Recording";
+    });
+
+    editBtn?.addEventListener('click', () => noteText.removeAttribute('readonly'));
 
     saveBtn?.addEventListener('click', () => {
-        alert("✅ Saved!");
+        localStorage.setItem('careNote', noteText.value);
+        alert("✅ Note Saved to Device!");
         noteText.setAttribute('readonly', true);
     });
 
     formatBtn?.addEventListener('click', () => {
-        if (!noteText.value) return alert("⚠️ Record first!");
-        noteText.value = `📅 ${new Date().toLocaleString("en-GB")}\n📝 ${noteText.value}`;
+        if (!noteText.value) return alert("⚠️ Record or type a note first!");
+        noteText.value = `📅 ${new Date().toLocaleString("en-GB")}
+👤 Service User: [Name]
+📍 Type: Daily Support
+────────────────────────────────────
+📝 Observation:
+${noteText.value}
+
+✅ Action Taken:
+• Support provided as needed
+• Observed well-being
+────────────────────────────────────
+CareWrite AI — Record`;
     });
+
+    // Load saved note
+    noteText.value = localStorage.getItem('careNote') || '';
 });
