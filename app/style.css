@@ -44,6 +44,45 @@ h3 { color:#fff; margin-bottom:8px; }
     textarea { background: white; color: black; border: none; width: 100%; min-height: auto; }
 }
 
+/* 👤 SERVICE USER DROPDOWN STYLES */
+.user-select {
+    margin: 18px 0;
+    padding: 16px;
+    background: #2a1f1f;
+    border-radius: 10px;
+    border: 1px solid #444;
+}
+
+.user-select label {
+    color: #0D9488;
+    font-weight: 600;
+    font-size: 16px;
+    margin-right: 12px;
+    display: inline-block;
+}
+
+.user-select select {
+    width: 100%;
+    max-width: 320px;
+    padding: 10px 14px;
+    background: #1a1111;
+    color: #ffffff;
+    border: 1px solid #555;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.user-select select:focus {
+    outline: 2px solid #0D9488;
+    border-color: #0D9488;
+}
+
+/* Hide dropdown in PDF */
+@media print {
+    .user-select { display: none !important; }
+}
+
                 <!-- 👤 SERVICE USER DROPDOWN - NEW! -->
                 <div class="user-select">
                     <label>Service User:</label>
@@ -57,5 +96,4 @@ h3 { color:#fff; margin-bottom:8px; }
                     </select>
                 </div>
 
-                <!-- Your existing textarea stays here -->
-                <textarea id="noteText" placeholder="Speech will appear here..." readonly></textarea>
+               
