@@ -1,3 +1,41 @@
+// 🔒 PIN LOCK SYSTEM — CONFIGURE YOUR PIN HERE
+const CORRECT_PIN = "1234"; // ✅ CHANGE THIS TO YOUR OWN 4-DIGIT PIN!
+
+document.addEventListener('DOMContentLoaded', () => {
+    const pinLock = document.getElementById('pinLock');
+    const pinInput = document.getElementById('pinInput');
+    const pinUnlock = document.getElementById('pinUnlock');
+    const appContent = document.getElementById('appContent');
+
+    // Try unlock
+    function attemptUnlock() {
+        if (pinInput.value === CORRECT_PIN) {
+            // ✅ CORRECT PIN — UNLOCK APP
+            pinLock.style.display = 'none';
+            appContent.style.opacity = '1';
+            localStorage.setItem('pinUnlocked', Date.now());
+        } else {
+            // ❌ WRONG PIN
+            pinInput.value = '';
+            pinInput.style.borderColor = '#ef4444';
+            alert("❌ Wrong PIN — try again!");
+            pinInput.style.borderColor = '#444';
+        }
+    }
+
+    // Click button OR press Enter key
+    pinUnlock?.addEventListener('click', attemptUnlock);
+    pinInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') attemptUnlock();
+    });
+
+    // Auto-unlock for 8 hours after first success
+    const lastUnlock = localStorage.getItem('pinUnlocked');
+    if (lastUnlock && (Date.now() - lastUnlock) < 28800000) {
+        pinLock.style.display = 'none';
+        appContent.style.opacity = '1';
+    }
+});
 document.addEventListener('DOMContentLoaded', () => {
     const recordBtn = document.getElementById('recordBtn');
     const noteText = document.getElementById('noteText');
