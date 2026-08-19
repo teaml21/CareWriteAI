@@ -75,5 +75,6 @@ ${noteText.value}
 CareWrite AI — Record`;
     });
 
+   
     noteText.value = localStorage.getItem('careNote') || '';
 });
