@@ -43,3 +43,19 @@ h3 { color:#fff; margin-bottom:8px; }
     .container { max-width: 100%; margin: 0; padding: 20px; }
     textarea { background: white; color: black; border: none; width: 100%; min-height: auto; }
 }
+
+                <!-- 👤 SERVICE USER DROPDOWN - NEW! -->
+                <div class="user-select">
+                    <label>Service User:</label>
+                    <select id="serviceUser">
+                        <option value="">— Select Name —</option>
+                        <option value="Jane Doe">Jane Doe</option>
+                        <option value="John Smith">John Smith</option>
+                        <option value="Sarah Lee">Sarah Lee</option>
+                        <option value="Robert Jones">Robert Jones</option>
+                        <option value="Other">Other / Not Listed</option>
+                    </select>
+                </div>
+
+                <!-- Your existing textarea stays here -->
+                <textarea id="noteText" placeholder="Speech will appear here..." readonly></textarea>
