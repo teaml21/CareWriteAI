@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         noteText.setAttribute('readonly', true);
     });
 
-  formatBtn?.addEventListener('click', () => {
+    formatBtn?.addEventListener('click', () => {
         if (!noteText.value) return alert("⚠️ Record or type a note first!");
         noteText.value = `📅 ${new Date().toLocaleString("en-GB")}
 👤 Service User: [Name]
@@ -89,7 +89,6 @@ ${noteText.value}
 CareWrite AI — Record`;
     });
 
-    // Load saved note
-    noteText.value = localStorage.getItem('careNote'   
-
-   
+    // ✅ Load saved note on app start
+    noteText.value = localStorage.getItem('careNote') || '';
+}); // ✅ FINAL CLOSING BRACKET (CRITICAL!) 
