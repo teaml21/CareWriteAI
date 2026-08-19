@@ -91,4 +91,16 @@ CareWrite AI — Record`;
 
     // ✅ Load saved note on app start
     noteText.value = localStorage.getItem('careNote') || '';
-}); // ✅ FINAL CLOSING BRACKET (CRITICAL!) 
+// 📄 PDF EXPORT BUTTON
+/ 📄 PDF EXPORT BUTTON
+const exportBtn = document.createElement('button');
+exportBtn.textContent = "📥 Save PDF";
+exportBtn.className = "btn-secondary";
+exportBtn.style.width = "100%";
+exportBtn.style.marginTop = "15px";
+document.querySelector('.actions').appendChild(exportBtn);
+
+exportBtn.addEventListener('click', () => {
+    if (!noteText.value) return alert("⚠️ No note to save!");
+    window.print(); // Select "Save as PDF" in menu
+});
