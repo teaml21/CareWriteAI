@@ -67,11 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
         noteText.value = fullTranscript + interim; // ✅ LIVE UPDATE
     };
 
-    // ✍️ EDIT BUTTON — NOW WORKS
+    // ✍️ EDIT BUTTON — FORCE EDIT MODE
     editBtn?.addEventListener('click', () => {
+        // Remove readonly attribute COMPLETELY
         noteText.removeAttribute('readonly');
+        // Also set to editable explicitly
+        noteText.readOnly = false;
+        // Highlight & focus so you can type immediately
         noteText.focus();
-        alert("✅ Editing enabled — you can now type!");
+        noteText.style.background = '#2a1f1f'; // Visual feedback
+        alert("✅ EDIT MODE ON — Type freely now!");
     });
 
     // 💾 SAVE BUTTON
