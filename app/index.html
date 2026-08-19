@@ -58,11 +58,7 @@
                     <button id="tplMed" class="btn">💊 Medication</button>
                     <button id="tplHandover" class="btn">🔄 Handover</button>
                 </div>
-✅ Step 2: Paste This Code at END of app.js
-(Right before the final }); — above the "Load saved note" line)
-javascript
-Run
-    // 📋 DAILY NOTE TEMPLATE
+
     document.getElementById('tplDaily')?.addEventListener('click', () => {
         const user = document.getElementById('serviceUser')?.value || '[Name]';
         if (!noteText.value) return alert("⚠️ Record or type first!");
