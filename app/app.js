@@ -117,12 +117,33 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("✅ EDIT MODE ON — Type freely now!");
     });
 
-    // 💾 SAVE BUTTON
-    document.getElementById('saveBtn')?.addEventListener('click', () => {
-        localStorage.setItem('careNote', noteText.value);
-        alert("✅ Saved to device!");
+     // 💾 SAVE BUTTON — NOW SAVES TO HISTORY
+    saveBtn?.addEventListener('click', () => {
+        const noteContent = noteText.value.trim();
+        const user = document.getElementById('serviceUser')?.value || '[Name]';
+        
+        if (!noteContent) return alert("⚠️ Nothing to save!");
+
+        // Create note object
+        const note = {
+            id: Date.now(),
+            date: new Date().toLocaleString("en-GB"),
+            user: user,
+            content: noteContent
+        };
+
+        // Get existing history & add new note
+        let savedNotes = JSON.parse(localStorage.getItem('careWriteHistory') || '[]');
+        savedNotes.unshift(note); // Newest at top
+        localStorage.setItem('careWriteHistory', JSON.stringify(savedNotes));
+
+        alert("✅ Note Saved to History!");
         noteText.setAttribute('readonly', 'true');
+        
+        // Refresh history list instantly
+        renderNotesHistory();
     });
+    
 
     // 🤖 FORMAT BUTTON
     document.getElementById('formatBtn')?.addEventListener('click', () => {
@@ -211,4 +232,81 @@ CareWrite AI`;
 
     // ✅ LOAD SAVED NOTE ON START
     noteText.value = localStorage.getItem('careNote') || '';
+     // 📂 RENDER SAVED NOTES LIST
+    function renderNotesHistory() {
+        const listContainer = document.getElementById('notesList');
+        if (!listContainer) return;
+
+        const savedNotes = JSON.parse(localStorage.getItem('careWriteHistory') || '[]');
+
+        if (savedNotes.length === 0) {
+            listContainer.innerHTML = '<p class="empty-history">No saved notes yet — save your first note!</p>';
+            return;
+        }
+
+        listContainer.innerHTML = '';
+
+        savedNotes.forEach(note => {
+            const card = document.createElement('div');
+            card.className = 'note-card';
+            card.innerHTML = `
+                <div class="note-header">
+                    <span class="note-date">📅 ${note.date}</span>
+                    <span class="note-user">👤 ${note.user}</span>
+                </div>
+                <div class="note-preview">${note.content.substring(0, 60)}${note.content.length > 60 ? '...' : ''}</div>
+                <div class="note-actions">
+                    <button class="note-btn btn-load" data-id="${note.id}">📂 Load</button>
+                    <button class="note-btn btn-delete" data-id="${note.id}">🗑️ Delete</button>
+                </div>
+            `;
+            listContainer.appendChild(card);
+        });
+
+        // ⬇️ Attach Load & Delete Listeners
+        document.querySelectorAll('.btn-load').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                loadNote(id);
+            });
+        });
+
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm("❌ Delete this note forever?")) {
+                    const id = parseInt(btn.dataset.id);
+                    deleteNote(id);
+                }
+            });
+        });
+    }
+
+    // 📂 LOAD NOTE BACK INTO EDITOR
+    window.loadNote = function(id) {
+        const savedNotes = JSON.parse(localStorage.getItem('careWriteHistory') || '[]');
+        const note = savedNotes.find(n => n.id === id);
+        if (note) {
+            noteText.value = note.content;
+            noteText.removeAttribute('readonly');
+            noteText.focus();
+            // Try to match service user dropdown
+            const userSelect = document.getElementById('serviceUser');
+            if (userSelect) userSelect.value = note.user;
+            alert("✅ Note Loaded! You can now edit & re-save.");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    // 🗑️ DELETE NOTE
+    window.deleteNote = function(id) {
+        let savedNotes = JSON.parse(localStorage.getItem('careWriteHistory') || '[]');
+        savedNotes = savedNotes.filter(n => n.id !== id);
+        localStorage.setItem('careWriteHistory', JSON.stringify(savedNotes));
+        renderNotesHistory();
+    };
+
+    // ✅ LOAD HISTORY AUTOMATICALLY ON PAGE OPEN
+    renderNotesHistory();
 });
