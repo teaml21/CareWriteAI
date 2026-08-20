@@ -195,4 +195,15 @@ h3 { color:#fff; margin-bottom:8px; }
     font-size: 14px;
     padding: 12px 10px;
 }
-               
+ #aiImprove {
+    background: #1e40af;
+    color: white;
+    border: none;
+}
+#aiImprove:hover {
+    background: #1d4ed8;
+}
+#aiImprove:disabled {
+    background: #475569;
+    cursor: wait;
+}              
