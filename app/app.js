@@ -1,42 +1,39 @@
-// 🧠 AI Csk-proj-a6nBauvHizAjnEYrhC8EXhCsxzWd4UsagXbwyPzAJOjybaBLSPEYY3aCWM_4tU9gsYjuH2uYpCT3BlbkFJ6eJbundmjV8dJleFmP_KaSkchX3cPEGu_MdIDERctKsnwhmb8LScDMPKAL7OnDb1HGrv7pcOQAONFIG — PASTE YOUR KEY HERE
-const AI_API_KEY = "YOUR_KEY_HERE"; // ← PASTE OPENAI/GEMINI KEY
-const AI_MODEL = "gpt-3.5-turbo"; // or "gemini-pro"
-const AI_PROVIDER = "openai"; // or "gemini"
-
-// 🧠 AI BRAIN FUNCTION
+// 🧠 AI IMPROVE NOTE — SAFE VERSION (Key hidden in config.js)
 async function improveNoteWithAI(text, user) {
     if (!text) return alert("⚠️ Write/record note first!");
+    if (!window.AI_CONFIG) return alert("❌ Config file missing! Create config.js");
 
-    // Care-specific instruction
+    const { provider, apiKey, model } = window.AI_CONFIG;
+
+    // Professional UK Care Prompt
     const systemPrompt = `You are CareWrite AI — professional UK social care documentation assistant.
-Improve this note: make it clear, person-centred, professional, grammatically correct, concise but complete.
-Format for supported living/disability care. Include name: ${user}.
-Keep facts exactly as given — do NOT invent anything.`;
+Improve this note: make it clear, professional, grammatically correct, concise but complete.
+Format for supported living/disability care. Service User: ${user}.
+Keep ALL facts exactly as written — NEVER invent details. Use UK English.`;
 
     try {
-        if (AI_PROVIDER === "openai") {
+        if (provider === "openai") {
             const res = await fetch("https://api.openai.com/v1/chat/completions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${AI_API_KEY}`
+                    "Authorization": `Bearer ${apiKey}`
                 },
                 body: JSON.stringify({
-                    model: AI_MODEL,
+                    model: model,
                     messages: [
                         { role: "system", content: systemPrompt },
                         { role: "user", content: text }
                     ],
-                    temperature: 0.3 // low = factual, safe
+                    temperature: 0.3
                 })
             });
             const data = await res.json();
             if (data.error) throw new Error(data.error.message);
             return data.choices[0].message.content.trim();
         }
-        // Gemini version
-        else if (AI_PROVIDER === "gemini") {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${AI_API_KEY}`, {
+        else if (provider === "gemini") {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -44,6 +41,7 @@ Keep facts exactly as given — do NOT invent anything.`;
                 })
             });
             const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
             return data.candidates[0].content.parts[0].text.trim();
         }
     } catch (err) {
@@ -53,23 +51,23 @@ Keep facts exactly as given — do NOT invent anything.`;
     }
 }
 
-// 🧠 BUTTON CLICK — CONNECT TO YOUR EXISTING APP
+// 🧠 AI BUTTON CLICK HANDLER
 document.addEventListener('DOMContentLoaded', () => {
     const aiBtn = document.getElementById('aiImprove');
     const noteText = document.getElementById('noteText');
     const userSelect = document.getElementById('serviceUser');
 
     aiBtn?.addEventListener('click', async () => {
-        const original = noteText.value.trim();
-        const user = userSelect?.value || "Service User";
+        const originalText = noteText.value.trim();
+        const userName = userSelect?.value || "Service User";
 
         aiBtn.textContent = "⏳ AI Working...";
         aiBtn.disabled = true;
 
-        const improved = await improveNoteWithAI(original, user);
+        const improvedText = await improveNoteWithAI(originalText, userName);
 
-        if (improved) {
-            noteText.value = improved;
+        if (improvedText) {
+            noteText.value = improvedText;
             noteText.removeAttribute('readonly');
             alert("✅ AI Improved Note Ready!");
         }
@@ -77,6 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
         aiBtn.textContent = "🧠 AI Improve Note";
         aiBtn.disabled = false;
     });
+
+
 // 🔒 PIN LOCK SYSTEM — CONFIGURE YOUR PIN HERE
 const CORRECT_PIN = "1212"; // ✅ CHANGE THIS TO YOUR OWN 4-DIGIT PIN!
 
