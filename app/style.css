@@ -100,6 +100,97 @@ h3 { color:#fff; margin-bottom:8px; }
     gap: 10px;
     margin-top: 20px;
 }
+/* 📂 SAVED NOTES HISTORY STYLES */
+.history-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: #1a1111;
+    border-radius: 12px;
+    border: 1px solid #333;
+}
+
+.history-section h3 {
+    color: #0D9488;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+#notesList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.empty-history {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.note-card {
+    background: #2a1f1f;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.note-card:hover {
+    border-color: #0D9488;
+    transform: translateY(-2px);
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.note-date {
+    color: #0D9488;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.note-user {
+    color: #aaa;
+    font-size: 13px;
+}
+
+.note-preview {
+    color: #ccc;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 10px;
+}
+
+.note-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.note-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-load {
+    background: #0D9488;
+    color: white;
+}
+
+.btn-delete {
+    background: #991b1b;
+    color: white;
+}
 .btn {
     font-size: 14px;
     padding: 12px 10px;
