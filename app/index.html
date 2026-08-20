@@ -1,38 +1,33 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CareWrite AI — Dashboard</title>
-    <!-- ✅ PATHS FIXED: same folder = NO ../ -->
     <link rel="icon" href="Logo.png">
     <link rel="stylesheet" href="style.css">
-    <!-- Debug -->
-    <script src="https://cdn.jsdelivr.net/npm/eruda@2.5.0/eruda.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>eruda.init();</script>
 </head>
 <body>
-    
-<!-- 🔒 PIN SCREEN — EXACTLY THIS -->
+
+<!-- 🔒 PIN SCREEN — TOP OF BODY -->
 <div id="pinLock" style="position:fixed;inset:0;background:#1a1111;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;">
     <h2 style="color:#0D9488;margin-bottom:20px;">🔒 CareWrite AI</h2>
-    <p style="color:#ccc;">Enter 4-digit PIN to unlock</p>
+    <p style="color:#ccc;">Enter 4-digit PIN</p>
     <input type="password" id="pinInput" maxlength="4" placeholder="••••" style="padding:15px;font-size:24px;width:150px;text-align:center;letter-spacing:10px;border-radius:8px;border:2px solid #444;background:#2a1f1f;color:white;margin:15px 0;">
     <button id="pinUnlock" class="btn-primary" style="width:150px;">🔓 Unlock</button>
     <p style="color:#666;font-size:12px;margin-top:15px;">Default PIN: 1207</p>
 </div>
 
-<!-- ✅ APP WRAPPER — MUST BE HERE -->
+<!-- ✅ APP WRAPPER -->
 <div id="appContent" style="opacity:0;transition:opacity 0.4s ease;">
-
     <!-- YOUR FULL APP CONTENT HERE -->
-    <!-- (buttons, textarea, etc.) -->
-
 </div>
 
 <script src="app.js"></script>
-</body
+</body>
+</html>
     <div class="container">
         <header class="app-header">
             <h1>CareWrite AI</h1>
