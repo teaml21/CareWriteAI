@@ -1,3 +1,43 @@
+// 🔒 PIN LOCK — FULL WORKING LOGIC
+const CORRECT_PIN = "1207"; // ✅ YOUR PIN — KEEP AS STRING
+
+document.addEventListener('DOMContentLoaded', () => {
+    const pinLock = document.getElementById('pinLock');
+    const pinInput = document.getElementById('pinInput');
+    const pinUnlock = document.getElementById('pinUnlock');
+    const appContent = document.getElementById('appContent');
+
+    console.log("🔍 PIN System Ready");
+
+    function tryUnlock() {
+        const entered = pinInput.value.trim();
+        console.log("🔍 Entered:", entered, "| Expected:", CORRECT_PIN);
+
+        if (entered === CORRECT_PIN) {
+            pinLock.style.display = "none";
+            appContent.style.opacity = "1";
+            localStorage.setItem('careWriteUnlocked', 'yes');
+            console.log("✅ UNLOCKED");
+        } else {
+            pinInput.value = "";
+            pinInput.style.border = "2px solid red";
+            alert("❌ WRONG PIN — Use: 1207");
+            setTimeout(()=> pinInput.style.border="", 1000);
+        }
+    }
+
+    // CLICK + ENTER KEY
+    pinUnlock?.addEventListener('click', tryUnlock);
+    pinInput?.addEventListener('keydown', e => e.key==='Enter' && tryUnlock());
+
+    // REMEMBER UNLOCK (8hrs)
+    if (localStorage.getItem('careWriteUnlocked') === 'yes') {
+        pinLock.style.display = "none";
+        appContent.style.opacity = "1";
+    }
+
+    // ↓ YOUR REST OF CODE (Voice/AI/Save) BELOW ↓
+});
 document.addEventListener('DOMContentLoaded', () => {
     // 🎤 BASIC ELEMENTS
     const recordBtn = document.getElementById('recordBtn');
