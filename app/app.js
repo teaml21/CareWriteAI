@@ -1,3 +1,83 @@
+// 🧠 AI CONFIG — PASTE YOUR KEY HERE
+const AI_API_KEY = "YOUR_KEY_HERE"; // ← PASTE OPENAI/GEMINI KEY
+const AI_MODEL = "gpt-3.5-turbo"; // or "gemini-pro"
+const AI_PROVIDER = "openai"; // or "gemini"
+
+// 🧠 AI BRAIN FUNCTION
+async function improveNoteWithAI(text, user) {
+    if (!text) return alert("⚠️ Write/record note first!");
+
+    // Care-specific instruction
+    const systemPrompt = `You are CareWrite AI — professional UK social care documentation assistant.
+Improve this note: make it clear, person-centred, professional, grammatically correct, concise but complete.
+Format for supported living/disability care. Include name: ${user}.
+Keep facts exactly as given — do NOT invent anything.`;
+
+    try {
+        if (AI_PROVIDER === "openai") {
+            const res = await fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${AI_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: AI_MODEL,
+                    messages: [
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: text }
+                    ],
+                    temperature: 0.3 // low = factual, safe
+                })
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error.message);
+            return data.choices[0].message.content.trim();
+        }
+        // Gemini version
+        else if (AI_PROVIDER === "gemini") {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${AI_API_KEY}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: systemPrompt + "\n\nNOTE:\n" + text }] }]
+                })
+            });
+            const data = await res.json();
+            return data.candidates[0].content.parts[0].text.trim();
+        }
+    } catch (err) {
+        alert("❌ AI Error: " + err.message);
+        console.error(err);
+        return null;
+    }
+}
+
+// 🧠 BUTTON CLICK — CONNECT TO YOUR EXISTING APP
+document.addEventListener('DOMContentLoaded', () => {
+    const aiBtn = document.getElementById('aiImprove');
+    const noteText = document.getElementById('noteText');
+    const userSelect = document.getElementById('serviceUser');
+
+    aiBtn?.addEventListener('click', async () => {
+        const original = noteText.value.trim();
+        const user = userSelect?.value || "Service User";
+
+        aiBtn.textContent = "⏳ AI Working...";
+        aiBtn.disabled = true;
+
+        const improved = await improveNoteWithAI(original, user);
+
+        if (improved) {
+            noteText.value = improved;
+            noteText.removeAttribute('readonly');
+            alert("✅ AI Improved Note Ready!");
+        }
+
+        aiBtn.textContent = "🧠 AI Improve Note";
+        aiBtn.disabled = false;
+    });
+});
 // 🔒 PIN LOCK — FULL WORKING LOGIC
 const CORRECT_PIN = "1207"; // ✅ YOUR PIN — KEEP AS STRING
 
