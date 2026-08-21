@@ -1,6 +1,4 @@
 // 🧠 AI CONFIG — PASTE YOUR KEY HERE
-const AI_API_KEY = "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"; // ← PASTE OPENAI/GEMINI KEY
-const AI_MODEL = "gpt-3.5-turbo"; // or "gemini-pro"
 const AI_PROVIDER = "openai"; // or "gemini"
 
 // 🧠 AI BRAIN FUNCTION
