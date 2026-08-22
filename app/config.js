@@ -1,8 +1,5 @@
-// 🛡️ SECRET CONFIG — NEVER SHARE THIS FILE
-window.AI_CONFIG = {
+const AI_CONFIG = {
     provider: "openai",
-    apiKey: "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", // ← YOUR FULL KEY, NO SPACES
+    apiKey: "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", // ✅ PASTE REAL sk- KEY HERE
     model: "gpt-3.5-turbo"
-}; // ← MUST HAVE CLOSING };
-    
-    
+};
