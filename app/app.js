@@ -27,9 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     pinUnlock?.addEventListener('click', tryUnlock);
     pinInput?.addEventListener('keydown', e => e.key==='Enter' && tryUnlock());
-    if (localStorage.getItem('careWriteUnlocked') === 'yes') {
-        pinLock.style.display = 'none';
-        appContent.style.opacity = '1';
     }
 
     // --- VOICE RECOGNITION ---
