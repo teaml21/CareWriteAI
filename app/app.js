@@ -1,6 +1,21 @@
 // 🔒 PIN — ONLY ONCE
 const CORRECT_PIN = "1207";
 
+const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + apiKey.trim() // ✅ NO SPACE ISSUES
+    },
+    body: JSON.stringify({
+        model: model,
+        messages: [
+            { role: "system", content: "Professional UK care note improver." },
+            { role: "user", content: text }
+        ]
+    })
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- ELEMENTS ---
     const pinLock = document.getElementById('pinLock');
