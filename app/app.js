@@ -1,6 +1,11 @@
 // 🔒 PIN — FIRST LINE, ONLY ONCE
 const CORRECT_PIN = "1207";
 
+document.addEventListener('DOMContentLoaded', () => {
+  // ✅ ALL YOUR EXISTING APP.JS CODE GOES INSIDE HERE
+  const recordBtn = document.getElementById('recordBtn');
+  const noteText = document.getElementById('noteText');
+  // ... rest of your code
 // 🧠 AI FUNCTION — CORRECT ASYNC SYNTAX
 async function improveNoteWithAI(text, user) {
     if (!window.AI_CONFIG) {
