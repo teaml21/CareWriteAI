@@ -1,112 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareWrite AI — Dashboard</title>
-    <link rel="icon" href="Logo.png">
-    <link rel="stylesheet" href="style.css">
-    <script src="config.js"></script>
-<script src="https://cdn.jsdelivr.net/..."></script>
-<script>eruda.init();</script>
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareWrite AI – Dashboard</title>
+  <link rel="icon" href="Logo.png">
+  <link rel="stylesheet" href="style.css">
+  <!-- ✅ CONFIG FIRST – NO DUPLICATES -->
+  <script src="config.js"></script>
+  <!-- Dev tools only -->
+  <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+  <script>eruda.init();</script>
 </head>
 <body>
 
-<!-- 🔒 PIN SCREEN — TOP OF BODY -->
+<!-- YOUR FULL BODY CONTENT REMAINS – keep all your PIN/UI code -->
 <div id="pinLock" style="position:fixed;inset:0;background:#1a1111;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;">
-    <h2 style="color:#0D9488;margin-bottom:20px;">🔒 CareWrite AI</h2>
-    <p style="color:#ccc;">Enter 4-digit PIN</p>
-    <input type="password" id="pinInput" maxlength="4" placeholder="••••" style="padding:15px;font-size:24px;width:150px;text-align:center;letter-spacing:10px;border-radius:8px;border:2px solid #444;background:#2a1f1f;color:white;margin:15px 0;">
-    <button id="pinUnlock" class="btn-primary" style="width:150px;">🔓 Unlock</button>
-    <p style="color:#666;font-size:12px;margin-top:15px;">Default PIN: 1207</p>
+  <h2 style="color:#0D9488;margin-bottom:20px;">🔒 CareWrite AI</h2>
+  <p style="color:#ccc;">Enter 4-digit PIN</p>
+  <input type="password" id="pinInput" maxlength="4" placeholder="••••" style="padding:15px;font-size:24px;width:150px;text-align:center;letter-spacing:10px;border-radius:8px;border:solid #444;background:#2a1f1f;color:white;margin:15px 0;">
+  <button id="pinUnlock" class="btn-primary">Unlock</button>
 </div>
 
-<!-- ✅ APP WRAPPER -->
-<div id="appContent" style="opacity:0;transition:opacity 0.4s ease;">
-    <!-- YOUR FULL APP CONTENT HERE -->
-    <!-- 📂 SAVED NOTES HISTORY — PASTE THIS HERE! -->
-        <div class="history-section">
-            <h3>📂 Saved Notes History</h3>
-            <div id="notesList">
-                <p class="empty-history">No saved notes yet — save your first note!</p>
-            </div>
-        </div>
+<!-- Rest of your app HTML here... -->
+<section>
+  <h1>Speak a Note</h1>
+  <p>Speak → Auto-Transcribe → AI Formatted Care Record</p>
+  <button id="recordBtn" class="btn-record">🎤 Record</button>
 
-    </div> <!-- END appContent -->
+  <div class="form-group">
+    <label>Service User:</label>
+    <select id="serviceUser">
+      <option value="">— Select Name —</option>
+      <option value="sarah">Sarah</option>
+    </select>
+  </div>
 
+  <textarea id="noteText" placeholder="Your note will appear here..."></textarea>
 
-</body>
-</html>
-    </html>
-    <div class="container">
-        <header class="app-header">
-            <h1>CareWrite AI</h1>
-            <p>Care Documentation Dashboard</p>
-            <!-- ✅ Back to main = ../ -->
-            <a href="../index.html" class="back-link">← Back to Main Website</a>
-        </header>
+  <div class="actions">
+    <button id="aiImprove" class="btn">🧠 AI Improve Note</button>
+    <button id="editBtn" class="btn">✍️ Edit</button>
+    <button id="saveBtn" class="btn-primary">✅ Save & Approve</button>
+    <button id="formatBtn" class="btn-secondary">🤖 AI Format</button>
+    <button id="tplDaily" class="btn">📝 Daily Note</button>
+    <button id="tplIncident" class="btn">⚠️ Incident</button>
+    <button id="tplMed" class="btn">💊 Medication</button>
+    <button id="tplHandover" class="btn">🔄 Handover</button>
+  </div>
 
-        <main class="app-main">
-            <section class="card feature-main">
-</div>
+  <div class="grid-cards">
+    <div class="card"><h3>📄 New Note</h3></div>
+    <div class="card"><h3>📂 My Records</h3></div>
+    <div class="card"><h3>👥 Service Users</h3></div>
+    <div class="card"><h3>⚙️ Settings</h3></div>
+  </div>
+</section>
 
-
-</body>
-
-                <h2>🎤 Speak a Note</h2>
-                <p>Speak → Auto-Transcribe → AI Formatted Care Record</p>
-
-                <!-- ✅ EXACT ID: recordBtn + CORRECT BUTTON TEXT -->
-                <button id="recordBtn" class="btn-record">🎙️ Start Recording</button>
-
-                <div class="output">
-                    <h3>Your Draft Note</h3>
-                                    <!-- 👤 SERVICE USER DROPDOWN - NEW! -->
-                <div class="user-select">
-                    <label>Service User:</label>
-                    <select id="serviceUser">
-                        <option value="">— Select Name —</option>
-                        <option value="Jane Doe">Jane Doe</option>
-                        <option value="John Smith">John Smith</option>
-                        <option value="Sarah Lee">Sarah Lee</option>
-                        <option value="Robert Jones">Robert Jones</option>
-                        <option value="Other">Other / Not Listed</option>
-                    </select>
-                </div>
-
-                <!-- Your existing textarea stays here -->
-                    <!-- ✅ EXACT ID: noteText -->
-                    <textarea id="noteText" placeholder="Speech will appear here..." readonly></textarea>
-                </div>
-
-                <div class="actions">
-                    <button id="aiImprove" class="btn">🧠 AI Improve Note</button>
-                    <button id="editBtn" class="btn">✍️ Edit</button>
-                    <button id="saveBtn" class="btn-primary">✅ Save & Approve</button>
-                    <button id="formatBtn" class="btn-secondary">🤖 AI Format</button>
-                     <!-- 📋 NEW TEMPLATE BUTTONS -->
-                    <button id="tplDaily" class="btn">📝 Daily Note</button>
-                    <button id="tplIncident" class="btn">⚠️ Incident</button>
-                    <button id="tplMed" class="btn">💊 Medication</button>
-                    <button id="tplHandover" class="btn">🔄 Handover</button>
-                </div>
-
-   
-                </div>
-            </section>
-
-            <div class="grid-cards">
-                <div class="card"><h3>📝 New Note</h3></div>
-                <div class="card"><h3>📁 My Records</h3></div>
-                <div class="card"><h3>👥 Service Users</h3></div>
-                <div class="card"><h3>⚙️ Settings</h3></div>
-            </div>
-        </main>
-    </div>
-<!-- 🔒 LOAD HIDDEN CONFIG FIRST -->
-<script src="config.js"></script>
+<!-- ✅ APP LAST -->
 <script src="app.js"></script>
 </body>
-
+</html>
