@@ -1,47 +1,52 @@
-// api/improve.js – Secure OpenAI endpoint (Vercel Serverless)
+// api/improve.js — CareWrite AI • Vercel Serverless Endpoint
 const { OpenAI } = require("openai");
 
 module.exports = async function handler(req, res) {
-  // Allow only POST & protect origin
+  // Only allow POST requests
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
+    // Read text sent from app
     const { text } = req.body;
-    if (!text || text.trim().length < 3) {
-      return res.status(400).json({ error: "No valid text provided" });
+    if (!text || typeof text !== "string" || text.trim().length < 3) {
+      return res.status(400).json({ error: "Please provide valid note text" });
     }
 
-    // ✅ Key stays hidden – loaded from Vercel env vars
+    // Connect securely — KEY comes from Vercel Environment Variables
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY
     });
 
+    // AI prompt tuned for UK Care / Supported Living standards
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      temperature: 0.3, // consistent/professional for care
+      temperature: 0.2, // Keep consistent, factual
       messages: [
         {
           role: "system",
-          content: `You are CareWrite AI – an expert in UK health & supported living documentation.
-Rewrite/improve the support worker’s rough note into:
-• Clear, professional, objective language
-• Grammatically correct & well‑structured
-• Person‑centred tone
-• Keep ALL original facts/details – do NOT invent anything
-• Suitable for official records/care plans`
+          content: `You are CareWrite AI, an assistant for UK health and supported living documentation.
+Rewrite the support worker’s rough, spoken or incomplete note into:
+• Clear, grammatically correct, well‑structured professional English
+• Objective, person‑centred tone
+• Suitable for official care records, care plans and audits
+✅ IMPORTANT: NEVER invent, guess or add ANY facts not written in the original text
+✅ Preserve exactly what happened, who was involved, times/details if given`
         },
-        { role: "user", content: text }
+        { role: "user", content: text.trim() }
       ]
     });
 
-    res.status(200).json({
+    // Send clean result back to app
+    return res.status(200).json({
       improved: completion.choices[0].message.content.trim()
     });
 
   } catch (err) {
-    console.error("❌ API Error:", err);
-    res.status(500).json({ error: "AI improvement failed – try again later" });
+    console.error("❌ API /improve error:", err?.message || err);
+    return res.status(500).json({
+      error: "AI improvement failed — please try again shortly"
+    });
   }
 };
