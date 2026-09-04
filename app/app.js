@@ -479,4 +479,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }
 
+// ==============================================
+// 🤖 AI IMPROVE CONNECTION
+// ==============================================
+aiImprove.addEventListener('click', async () => {
+  const rawText = noteText.value.trim();
+  if (!rawText) {
+    alert('⚠️ Write or record a note first.');
+    return;
+  }
+
+  try {
+    aiImprove.disabled = true;
+    aiImprove.textContent = "Improving…";
+
+    const res = await fetch('/api/improve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: rawText })
+    });
+
+    const data = await res.json();
+    if (data.improved) {
+      noteText.value = data.improved;
+    } else {
+      throw new Error(data.error || 'No reply from AI');
+    }
+  } catch (err) {
+    alert('❌ AI failed: ' + err.message + '\n(Check deploy / env / api folder)');
+  } finally {
+    aiImprove.disabled = false;
+    aiImprove.textContent = "✨ AI Improve";
+  }
+});
 });
