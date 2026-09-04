@@ -227,289 +227,62 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==============================
-  // AI IMPROVE NOTE
-  // ==============================
+// AI IMPROVE NOTE
+// ==============================
 
-  if (aiImprove) {
+if (aiImprove) {
+  aiImprove.addEventListener('click', async () => {
 
-    aiImprove.addEventListener('click', () => {
+    if (!noteText) return;
 
-      if (!noteText) return;
+    const text = noteText.value.trim();
 
-      const text = noteText.value.trim();
+    if (!text) {
+      alert('⚠️ Please enter or record a note first.');
+      return;
+    }
 
-      if (!text) {
+    aiImprove.disabled = true;
+    aiImprove.textContent = '🧠 Improving...';
 
-        alert('⚠️ Please enter or record a note first.');
+    try {
+      const response = await fetch('https://care-write-ai.vercel.app/api/improve', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          text: text
+        })
+      });
 
-        return;
+      const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error(data.error || 'AI request failed');
       }
 
-      /*
-       * TEMPORARY SAFE AI IMPROVEMENT
-       *
-       * This prepares the note for the real AI.
-       * The actual AI API will be connected through
-       * a secure backend later.
-       */
+      if (!data.improved) {
+        throw new Error('No improved note was returned');
+      }
 
-      const improved =
-        text
-          .replace(/\s+/g, ' ')
-          .trim();
+      noteText.value = data.improved;
 
-      noteText.value =
-        'Care Record:\n\n' +
-        improved +
-        '\n\n';
+      alert('✅ AI has improved your care note.');
+
+    } catch (error) {
+
+      console.error('AI Improve error:', error);
 
       alert(
-        '✅ Note prepared for AI improvement. ' +
-        'The secure AI connection is the next step.'
+        '❌ AI improvement failed.\n\n' +
+        'Please check the Vercel deployment and API settings.'
       );
 
-    });
-
-  }
-
-  // ==============================
-  // SAVE NOTE
-  // ==============================
-
-  if (saveBtn) {
-
-    saveBtn.addEventListener('click', () => {
-
-      if (!noteText) return;
-
-      const note =
-        noteText.value.trim();
-
-      const user =
-        serviceUser && serviceUser.value
-          ? serviceUser.value
-          : 'Unassigned';
-
-      if (!note) {
-
-        alert('⚠️ No note to save.');
-
-        return;
-
-      }
-
-      const record = {
-
-        user: user,
-
-        note: note,
-
-        date: new Date().toLocaleString('en-GB')
-
-      };
-
-      let saved = [];
-
-      try {
-
-        saved =
-          JSON.parse(
-            localStorage.getItem('careNotes') || '[]'
-          );
-
-      } catch (error) {
-
-        saved = [];
-
-      }
-
-      saved.push(record);
-
-      localStorage.setItem(
-        'careNotes',
-        JSON.stringify(saved)
-      );
-
-      alert('✅ Care record saved successfully.');
-
-    });
-
-  }
-
-  // ==============================
-  // SERVICE USER LIST
-  // ==============================
-
-  if (serviceUser) {
-
-    const users = [
-
-      {
-        val: '',
-        name: '— Select Name —'
-      },
-
-      {
-        val: 'sarah',
-        name: 'Sarah'
-      },
-
-      {
-        val: 'james',
-        name: 'James'
-      },
-
-      {
-        val: 'maria',
-        name: 'Maria'
-      },
-
-      {
-        val: 'robert',
-        name: 'Robert'
-      },
-
-      {
-        val: 'emma',
-        name: 'Emma'
-      }
-
-    ];
-
-    serviceUser.innerHTML =
-      users
-        .map(
-          user =>
-            `<option value="${user.val}">
-              ${user.name}
-            </option>`
-        )
-        .join('');
-
-  }
-
-  // ==============================
-  // TEMPLATE BUTTONS
-  // ==============================
-
-  const templates = {
-
-    tplDaily:
-      'Daily Care Note:\n\n' +
-      'Date/Time:\n' +
-      'Presentation:\n' +
-      'Activities:\n' +
-      'Support Provided:\n' +
-      'Outcome:\n' +
-      'Any Concerns:\n',
-
-    tplIncident:
-      'Incident Record:\n\n' +
-      'Date/Time:\n' +
-      'Location:\n' +
-      'What happened:\n' +
-      'People involved:\n' +
-      'Immediate action taken:\n' +
-      'Outcome:\n' +
-      'Who was informed:\n',
-
-    tplMed:
-      'Medication Record:\n\n' +
-      'Date/Time:\n' +
-      'Medication:\n' +
-      'Dose:\n' +
-      'Route:\n' +
-      'Reason:\n' +
-      'Outcome/Response:\n' +
-      'Any concerns:\n',
-
-    tplHandover:
-      'Handover:\n\n' +
-      'Service User:\n' +
-      'Current presentation:\n' +
-      'Important events:\n' +
-      'Support provided:\n' +
-      'Medication:\n' +
-      'Outstanding actions:\n' +
-      'Important information for next staff member:\n'
-
-  };
-
-  Object.keys(templates).forEach((id) => {
-
-    const button =
-      document.getElementById(id);
-
-    if (!button) return;
-
-    button.addEventListener('click', () => {
-
-      if (!noteText) return;
-
-      if (noteText.value.trim()) {
-
-        const confirmed =
-          confirm(
-            'Replace the current note with this template?'
-          );
-
-        if (!confirmed) return;
-
-      }
-
-      noteText.value =
-        templates[id];
-
-      noteText.focus();
-
-    });
+    } finally {
+      aiImprove.disabled = false;
+      aiImprove.textContent = '🧠 AI Improve Note';
+    }
 
   });
-
-  // ==============================
-  // TEXTBOX
-  // ==============================
-
-  if (noteText) {
-
-    noteText.style.width = '100%';
-    noteText.style.minHeight = '150px';
-    noteText.style.padding = '12px';
-
-  }
-
-// ==============================================
-// 🤖 AI IMPROVE CONNECTION
-// ==============================================
-aiImprove.addEventListener('click', async () => {
-  const rawText = noteText.value.trim();
-  if (!rawText) {
-    alert('⚠️ Write or record a note first.');
-    return;
-  }
-
-  try {
-    aiImprove.disabled = true;
-    aiImprove.textContent = "Improving…";
-
-    const res = await fetch('/api/improve', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: rawText })
-    });
-
-    const data = await res.json();
-    if (data.improved) {
-      noteText.value = data.improved;
-    } else {
-      throw new Error(data.error || 'No reply from AI');
-    }
-  } catch (err) {
-    alert('❌ AI failed: ' + err.message + '\n(Check deploy / env / api folder)');
-  } finally {
-    aiImprove.disabled = false;
-    aiImprove.textContent = "✨ AI Improve";
-  }
-});
-});
+}
