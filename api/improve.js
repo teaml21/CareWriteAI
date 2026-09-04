@@ -1,90 +1,47 @@
-export default async function handler(req, res) {
-  // Allow the CareWrite website to call this endpoint
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+// api/improve.js – Secure OpenAI endpoint (Vercel Serverless)
+const { OpenAI } = require("openai");
 
-  // Handle browser security check
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
-  // Only accept POST requests
+module.exports = async function handler(req, res) {
+  // Allow only POST & protect origin
   if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Method not allowed"
-    });
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const { note } = req.body;
-
-    if (!note || !note.trim()) {
-      return res.status(400).json({
-        error: "No care note was provided."
-      });
+    const { text } = req.body;
+    if (!text || text.trim().length < 3) {
+      return res.status(400).json({ error: "No valid text provided" });
     }
 
-    const response = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "gpt-5.6-luna",
-        instructions: `
-You are CareWrite AI, an assistant for professional adult social care documentation.
-
-Rewrite the user's note into a clear, professional, objective care record.
-
-Rules:
-- Only use information contained in the original note.
-- NEVER invent facts, observations, diagnoses, medication, times, outcomes or events.
-- Do not exaggerate or change the meaning.
-- Use respectful, person-centred language.
-- Keep the person's dignity and privacy.
-- Do not identify the person by name unless the original note contains a name.
-- Keep the wording concise and suitable for a professional care record.
-- Do not give medical advice.
-        `,
-        input: note
-      })
+    // ✅ Key stays hidden – loaded from Vercel env vars
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY
     });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("OpenAI error:", data);
-
-      return res.status(response.status).json({
-        error: "AI service error."
-      });
-    }
-
-    // Extract the generated text
-    const output =
-      data.output
-        ?.flatMap(item => item.content || [])
-        ?.filter(item => item.type === "output_text")
-        ?.map(item => item.text)
-        ?.join("") || "";
-
-    if (!output) {
-      return res.status(500).json({
-        error: "The AI returned no text."
-      });
-    }
-
-    return res.status(200).json({
-      improvedNote: output
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      temperature: 0.3, // consistent/professional for care
+      messages: [
+        {
+          role: "system",
+          content: `You are CareWrite AI – an expert in UK health & supported living documentation.
+Rewrite/improve the support worker’s rough note into:
+• Clear, professional, objective language
+• Grammatically correct & well‑structured
+• Person‑centred tone
+• Keep ALL original facts/details – do NOT invent anything
+• Suitable for official records/care plans`
+        },
+        { role: "user", content: text }
+      ]
     });
 
-  } catch (error) {
-    console.error("Server error:", error);
-
-    return res.status(500).json({
-      error: "Something went wrong connecting to CareWrite AI."
+    res.status(200).json({
+      improved: completion.choices[0].message.content.trim()
     });
+
+  } catch (err) {
+    console.error("❌ API Error:", err);
+    res.status(500).json({ error: "AI improvement failed – try again later" });
   }
-}
+};
