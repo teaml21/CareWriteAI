@@ -232,57 +232,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 if (aiImprove) {
   aiImprove.addEventListener('click', async () => {
-
     if (!noteText) return;
 
     const text = noteText.value.trim();
-
     if (!text) {
       alert('⚠️ Please enter or record a note first.');
       return;
     }
 
     aiImprove.disabled = true;
-    aiImprove.textContent = '🧠 Improving...';
+    aiImprove.textContent = "✨ Improving…";
 
     try {
-      const response = await fetch('https://care-write-ai.vercel.app/api/improve', {
+      const response = await fetch('/api/improve', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          text: text
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
       });
 
       const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'AI request failed');
+      if (data.improved) {
+        noteText.value = data.improved;
+      } else {
+        throw new Error(data.error || 'No reply');
       }
-
-      if (!data.improved) {
-        throw new Error('No improved note was returned');
-      }
-
-      noteText.value = data.improved;
-
-      alert('✅ AI has improved your care note.');
-
-    } catch (error) {
-
-      console.error('AI Improve error:', error);
-
-      alert(
-        '❌ AI improvement failed.\n\n' +
-        'Please check the Vercel deployment and API settings.'
-      );
-
+    } catch (err) {
+      alert('❌ Failed: ' + err.message);
     } finally {
       aiImprove.disabled = false;
-      aiImprove.textContent = '🧠 AI Improve Note';
+      aiImprove.textContent = "✨ AI Improve";
     }
-
-  });
-}
+  }); // ✔️ close listener
+} // ✔️ close outer `if (aiImprove)` block
