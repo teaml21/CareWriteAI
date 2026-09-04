@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const CORRECT_PIN =
     window.CONFIG && CONFIG.PIN
       ? String(CONFIG.PIN)
-      : '1234';
+      : '1207';
 
   if (pinUnlock) {
     pinUnlock.addEventListener('click', () => {
