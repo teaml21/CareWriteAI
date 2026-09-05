@@ -263,4 +263,4 @@ if (aiImprove) {
       aiImprove.textContent = "✨ AI Improve";
     }
   }); // ✔️ close listener
-} // ✔️ close outer `if (aiImprove)` block
+
