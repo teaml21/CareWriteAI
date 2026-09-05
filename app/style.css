@@ -25,22 +25,23 @@ h3 { color:#fff; margin-bottom:8px; }
     opacity: 0.92;
 }
 
-/* Output */
-.output textarea {
-    /* Make note textarea larger */
+/* --- YOUR NOTE TEXT BOX — WIDE & TALL --- */
 #noteText {
-  width: 100%;
-  min-height: 180px;
-  padding: 14px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 2px solid #ddd;
+  width: 100% !important;
+  min-height: 220px;
+  padding: 16px;
+  font-size: 17px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
   box-sizing: border-box;
+  resize: vertical;
 }
-  border: 1px solid #444;
-  background: #2a1f1f;
-  color: white;
-  resize: vertical; /* User can stretch more */
+
+/* Also make the whole page container wider */
+.container {
+  max-width: 1200px !important;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 /* Buttons Row */
