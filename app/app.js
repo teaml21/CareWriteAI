@@ -62,12 +62,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 🎤 Speech / Edit / Record can go below — space ready
-  // …
+  // 🎤 RECORD BUTTON — WORKS IN CHROME/EDGE
+const recordBtn = document.getElementById('recordBtn');
+const noteText = document.getElementById('noteText');
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+
+if (recognition) {
+  recognition.lang = 'en-GB';
+  recognition.interimResults = false;
+}
+
 let isRecording = false;
 
 recordBtn.addEventListener('click', () => {
-  if (!recognition) return alert("Speech not supported here");
+  if (!recognition) {
+    alert('⚠️ Please use Chrome or Edge for voice recording');
+    return;
+  }
 
   if (!isRecording) {
     recognition.start();
@@ -82,23 +95,23 @@ recordBtn.addEventListener('click', () => {
   }
 });
 
-// ✅ When speech finishes → put text into note box
+// ✅ Text appears in your box
 recognition?.addEventListener('result', (e) => {
-  const transcript = e.results[0][0].transcript;
-  noteText.value += (noteText.value ? " " : "") + transcript;
+  const words = e.results[0][0].transcript;
+  noteText.value += (noteText.value ? " " : "") + words;
 });
 
-// ✅ Reset after end/error
+// ✅ Reset when done
 recognition?.addEventListener('end', () => {
   recordBtn.textContent = "🎤 Record";
   recordBtn.classList.remove('active');
   isRecording = false;
 });
-recognition?.addEventListener('error', (err) => {
-  alert("Voice error: " + err.message);
+
+recognition?.addEventListener('error', () => {
   recordBtn.textContent = "🎤 Record";
   recordBtn.classList.remove('active');
   isRecording = false;
 });
 
-}); // ✅ FINAL CLOSING BRACKET — fixes "Unexpected end"
+});
