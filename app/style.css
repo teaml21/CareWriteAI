@@ -27,10 +27,6 @@ h3 { color:#fff; margin-bottom:8px; }
 
 /* Output */
 .output textarea {
-     min-height: 120px; /* Taller box */
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 8px;
     /* Make note textarea larger */
 #noteText {
   width: 100%;
