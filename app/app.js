@@ -64,5 +64,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 🎤 Speech / Edit / Record can go below — space ready
   // …
+let isRecording = false;
+
+recordBtn.addEventListener('click', () => {
+  if (!recognition) return alert("Speech not supported here");
+
+  if (!isRecording) {
+    recognition.start();
+    recordBtn.textContent = "🛑 Stop Recording";
+    recordBtn.classList.add('active');
+    isRecording = true;
+  } else {
+    recognition.stop();
+    recordBtn.textContent = "🎤 Record";
+    recordBtn.classList.remove('active');
+    isRecording = false;
+  }
+});
+
+// ✅ When speech finishes → put text into note box
+recognition?.addEventListener('result', (e) => {
+  const transcript = e.results[0][0].transcript;
+  noteText.value += (noteText.value ? " " : "") + transcript;
+});
+
+// ✅ Reset after end/error
+recognition?.addEventListener('end', () => {
+  recordBtn.textContent = "🎤 Record";
+  recordBtn.classList.remove('active');
+  isRecording = false;
+});
+recognition?.addEventListener('error', (err) => {
+  alert("Voice error: " + err.message);
+  recordBtn.textContent = "🎤 Record";
+  recordBtn.classList.remove('active');
+  isRecording = false;
+});
 
 }); // ✅ FINAL CLOSING BRACKET — fixes "Unexpected end"
