@@ -14,13 +14,16 @@
 </head>
 <body>
 
-<!-- YOUR FULL BODY CONTENT REMAINS – keep all your PIN/UI code -->
+<!-- 🔒 PIN LOCK — FULL & CLOSED -->
 <div id="pinLock" style="position:fixed;inset:0;background:#1a1111;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;">
-  <h2 style="color:#0D9488;margin-bottom:20px;">🔒 CareWrite AI</h2>
-  <p style="color:#ccc;">Enter 4-digit PIN</p>
-  <input type="password" id="pinInput" maxlength="4" placeholder="••••" style="padding:15px;font-size:24px;width:150px;text-align:center;letter-spacing:10px;border-radius:8px;border:solid #444;background:#2a1f1f;color:white;margin:15px 0;">
-  <button id="pinUnlock" class="btn-primary">Unlock</button>
+    <h2 style="color:#009488;margin-bottom:20px;">🔒 CareWrite AI</h2>
+    <p style="color:#ccc;">Enter 4‑digit PIN:</p>
+    <input type="password" id="pinInput" maxlength="4" placeholder="****" style="padding:15px;font-size:24px;width:150px;text-align:center;border-radius:6px;border:0;margin:15px 0;">
+    <button id="pinUnlock" class="btn-primary">Unlock</button>
 </div>
+
+<!-- 📱 MAIN APP — HIDDEN FIRST → SHOWS ONLY AFTER PIN ✅ -->
+<div id="appContent" style="display:none;">
   
 <div id="appContent"> <!-- ✅ ADD THIS LINE -->
   <h1>Speak a Note</h1>
