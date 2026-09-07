@@ -40,10 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
       aiImprove.disabled = true;
       aiImprove.textContent = "Improving…";
       try {
-        const res = await fetch('htps://care-write-ai-git-mainteaml21.vecel.app/api/impove', {
+        const res = await fetch('https://care-write-ai-git-mainteaml21.vercel.app/api/improve', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ note: raw })
+          body: JSON.stringify({ text: raw })
         });
         const data = await res.json();
         if (data.improved) noteText.value = data.improved;
