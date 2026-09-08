@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const aiFormatBtn = document.getElementById('formatBtn');
   const editBtn = document.getElementById('editBtn');
   const dailyNoteBtn = document.getElementById('tplDaily');
+  const incidentBtn = document.getElementById('tplIncident');
   const saveBtn = document.getElementById('saveBtn');
   const serviceUser = document.getElementById('serviceUser');
   const recordBtn = document.getElementById('recordBtn');
@@ -59,6 +60,37 @@ if (saveBtn) {
     localStorage.setItem('carewrite_records', JSON.stringify(records));
 
     alert('✅ Note saved and approved');
+  });
+}
+  // ⚠️ INCIDENT
+if (incidentBtn) {
+  incidentBtn.addEventListener('click', () => {
+    const existing = noteText.value.trim();
+
+    const template =
+`INCIDENT RECORD
+
+What Happened:
+${existing}
+
+Where It Happened:
+
+People Present:
+
+Immediate Action Taken:
+
+Injury / Harm:
+
+First Aid / Medical Attention:
+
+Who Was Informed:
+
+Follow-Up Required:
+
+Additional Information:`;
+
+    noteText.value = template;
+    noteText.focus();
   });
 }
   // 🤖 AI FORMAT
