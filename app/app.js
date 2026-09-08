@@ -337,31 +337,120 @@ ${record.note}`;
   // 👥 SERVICE USERS
 // 👥 SERVICE USERS
 if (serviceUsersCard) {
-  if (serviceUsersCard) {
   serviceUsersCard.addEventListener('click', () => {
-    const newUser = prompt('👥 Add a new service user name:');
 
-    if (!newUser) return;
-
-    const name = newUser.trim();
-
-    if (!name) return;
-
-    const savedUsers = JSON.parse(
-      localStorage.getItem('carewrite_service_users') || '[]'
+    const action = prompt(
+      '👥 SERVICE USERS\n\n' +
+      'Type one of the following:\n\n' +
+      'ADD - Add a service user\n' +
+      'VIEW - View service users\n' +
+      'REMOVE - Remove a service user'
     );
 
-    if (savedUsers.includes(name)) {
-      alert('⚠️ That service user already exists');
+    if (!action) return;
+
+    const choice = action.trim().toUpperCase();
+
+    // ADD USER
+    if (choice === 'ADD') {
+      const newUser = prompt('Enter the new service user name:');
+
+      if (!newUser) return;
+
+      const name = newUser.trim();
+      if (!name) return;
+
+      const savedUsers = JSON.parse(
+        localStorage.getItem('carewrite_service_users') || '[]'
+      );
+
+      const allUsers = Array.from(serviceUser.options)
+        .filter(option => option.value !== '')
+        .map(option => option.value.toLowerCase());
+
+      if (allUsers.includes(name.toLowerCase())) {
+        alert('⚠️ That service user already exists');
+        return;
+      }
+
+      savedUsers.push(name);
+
+      localStorage.setItem(
+        'carewrite_service_users',
+        JSON.stringify(savedUsers)
+      );
+
+      const option = document.createElement('option');
+      option.value = name;
+      option.textContent = name;
+      serviceUser.appendChild(option);
+
+      alert('✅ Service user added');
       return;
     }
 
-    savedUsers.push(name);
+    // VIEW USERS
+    if (choice === 'VIEW') {
+      const users = Array.from(serviceUser.options)
+        .filter(option => option.value !== '')
+        .map(option => option.textContent);
 
-    localStorage.setItem(
-      'carewrite_service_users',
-      JSON.stringify(savedUsers)
-    );
+      alert('👥 SERVICE USERS\n\n' + users.join('\n'));
+      return;
+    }
+
+    // REMOVE USER
+    if (choice === 'REMOVE') {
+      const savedUsers = JSON.parse(
+        localStorage.getItem('carewrite_service_users') || '[]'
+      );
+
+      if (savedUsers.length === 0) {
+        alert('⚠️ There are no added service users to remove');
+        return;
+      }
+
+      const nameToRemove = prompt(
+        'Enter the name to remove:\n\n' + savedUsers.join('\n')
+      );
+
+      if (!nameToRemove) return;
+
+      const match = savedUsers.find(
+        name => name.toLowerCase() === nameToRemove.trim().toLowerCase()
+      );
+
+      if (!match) {
+        alert('⚠️ Service user not found');
+        return;
+      }
+
+      const confirmed = confirm(
+        `Remove ${match} from CareWrite AI?`
+      );
+
+      if (!confirmed) return;
+
+      const updatedUsers = savedUsers.filter(name => name !== match);
+
+      localStorage.setItem(
+        'carewrite_service_users',
+        JSON.stringify(updatedUsers)
+      );
+
+      Array.from(serviceUser.options).forEach(option => {
+        if (option.value === match) {
+          option.remove();
+        }
+      });
+
+      alert('✅ Service user removed');
+      return;
+    }
+
+    alert('⚠️ Please enter ADD, VIEW or REMOVE');
+  });
+}
 
     const option = document.createElement('option');
     option.value = name;
