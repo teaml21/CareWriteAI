@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const incidentBtn = document.getElementById('tplIncident');
   const medicationBtn = document.getElementById('tplMed');
   const saveBtn = document.getElementById('saveBtn');
+  const handoverBtn = document.getElementById('tplHandover');
   const serviceUser = document.getElementById('serviceUser');
   const recordBtn = document.getElementById('recordBtn');
 
@@ -180,6 +181,37 @@ Any Side Effects / Concerns:
 Who Was Informed:
 
 Additional Information:`;
+
+    noteText.value = template;
+    noteText.focus();
+  });
+}
+  // 🔄 HANDOVER
+if (handoverBtn) {
+  handoverBtn.addEventListener('click', () => {
+    const existing = noteText.value.trim();
+
+    const template =
+`HANDOVER NOTE
+
+Current Presentation:
+${existing}
+
+Mood / Behaviour:
+
+Activities Completed:
+
+Meals / Drinks:
+
+Medication / Health:
+
+Personal Care:
+
+Any Concerns:
+
+Important Information for Next Staff:
+
+Follow-Up Required:`;
 
     noteText.value = template;
     noteText.focus();
