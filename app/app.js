@@ -115,8 +115,10 @@ if (myRecordsCard) {
     const recordList = records.map((record, index) => {
       const date = new Date(record.createdAt).toLocaleString();
 
-      return `${index + 1}. ${record.serviceUser}
-${date}
+return `${index + 1}. ${record.serviceUser}
+Type: ${record.recordType || 'General Note'}
+Date: ${date}
+
 ${record.note}`;
     }).join('\n\n--------------------\n\n');
 
