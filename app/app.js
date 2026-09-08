@@ -98,8 +98,7 @@ Additional Information:`;
     noteText.value = template;
     noteText.focus();
   });
-}
-  // 📁 MY RECORDS
+// 📁 MY RECORDS
 if (myRecordsCard) {
   myRecordsCard.addEventListener('click', () => {
     const records = JSON.parse(localStorage.getItem('carewrite_records') || '[]');
@@ -114,12 +113,19 @@ if (myRecordsCard) {
 
       return `${index + 1}. ${record.serviceUser}
 ${date}
-${record.note}`;
-    }).join('\n\n--------------------\n\n');
 
-    noteText.value = recordList;
-    noteText.focus();
+${record.note}`;
+    }).join('\n\n------------------------------\n\n');
+
+    alert('📁 MY RECORDS\n\n' + recordList);
   });
+}
+
+Then Commit changes, refresh the app, and press 📁 My Records.
+
+You should now get a separate records pop-up instead of your saved records replacing the note you’re currently writing.
+
+Once you confirm that works, the next step will be better: we’ll turn My Records into a proper on-page records panel with individual record cards and View buttons.
 }
   // 🤖 AI FORMAT
 if (aiFormatBtn) {
