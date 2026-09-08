@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const aiImprove = document.getElementById('aiImprove');
   const aiFormatBtn = document.getElementById('formatBtn');
   const editBtn = document.getElementById('editBtn');
+  const dailyNoteBtn = document.getElementById('tplDaily');
   const saveBtn = document.getElementById('saveBtn');
   const serviceUser = document.getElementById('serviceUser');
   const recordBtn = document.getElementById('recordBtn');
@@ -89,6 +90,33 @@ if (aiFormatBtn) {
     noteText.value = formatted;
 
     alert('🤖 Note formatted');
+  });
+}
+  // 📝 DAILY NOTE
+if (dailyNoteBtn) {
+  dailyNoteBtn.addEventListener('click', () => {
+    const existing = noteText.value.trim();
+
+    const template =
+`DAILY NOTE
+
+Presentation / Mood:
+${existing}
+
+Activities:
+
+Meals and Drinks:
+
+Personal Care:
+
+Health / Medication:
+
+Support Provided:
+
+Additional Information:`;
+
+    noteText.value = template;
+    noteText.focus();
   });
 }
 
