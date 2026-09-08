@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const appContent = document.getElementById('appContent');
   const noteText = document.getElementById('noteText');
   const aiImprove = document.getElementById('aiImprove');
+  const aiFormatBtn = document.getElementById('aiFormatBtn');
   const editBtn = document.getElementById('editBtn');
   const saveBtn = document.getElementById('saveBtn');
   const serviceUser = document.getElementById('serviceUser');
@@ -57,6 +58,37 @@ if (saveBtn) {
     localStorage.setItem('carewrite_records', JSON.stringify(records));
 
     alert('✅ Note saved and approved');
+  });
+}
+  // 🤖 AI FORMAT
+if (aiFormatBtn) {
+  aiFormatBtn.addEventListener('click', () => {
+    const note = noteText.value.trim();
+
+    if (!note) {
+      alert('⚠️ Please write or record a note first');
+      return;
+    }
+
+    let formatted = note
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    formatted = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+
+    if (!/[.!?]$/.test(formatted)) {
+      formatted += '.';
+    }
+
+    formatted = formatted
+      .replace(/\bwas happy\b/gi, 'appeared happy')
+      .replace(/\bhad lunch\b/gi, 'had their lunch')
+      .replace(/\bhad breakfast\b/gi, 'had their breakfast')
+      .replace(/\bhad a walk\b/gi, 'went for a walk');
+
+    noteText.value = formatted;
+
+    alert('🤖 Note formatted');
   });
 }
 
