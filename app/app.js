@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const myRecordsCard = document.getElementById('myRecordsCard');
   const serviceUsersCard = document.getElementById('serviceUsersCard');
   const serviceUser = document.getElementById('serviceUser');
+  let currentServiceUser = serviceUser ? serviceUser.value : "";
   const settingsCard = document.getElementById('settingsCard');
   const recordBtn = document.getElementById('recordBtn');
   let currentRecordType = 'General Note';
