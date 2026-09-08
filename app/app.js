@@ -219,6 +219,7 @@ Additional Information:`;
   // 🔄 HANDOVER
 if (handoverBtn) {
   handoverBtn.addEventListener('click', () => {
+    currentRecordType = 'Handover';
     const existing = noteText.value.trim();
 
     const template =
