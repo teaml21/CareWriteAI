@@ -251,6 +251,7 @@ Follow-Up Required:`;
   // 📄 NEW NOTE
 if (newNoteCard) {
   newNoteCard.addEventListener('click', () => {
+    currentRecordType = 'General Note';
     const hasNote = noteText.value.trim().length > 0;
 
     if (hasNote) {
