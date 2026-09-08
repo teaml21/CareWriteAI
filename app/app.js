@@ -20,13 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const serviceUsersCard = document.getElementById('serviceUsersCard');
   const serviceUser = document.getElementById('serviceUser');
   let currentServiceUser = serviceUser ? serviceUser.value : "";
+  let currentServiceUserId = "";
+  let serviceUsers = [];
+  const SERVICE_USERS_KEY = "carewrite_service_users";
   const settingsCard = document.getElementById('settingsCard');
   const recordBtn = document.getElementById('recordBtn');
   let currentRecordType = 'General Note';
   // 👥 LOAD SAVED SERVICE USERS
 const savedServiceUsers = JSON.parse(
-  localStorage.getItem('carewrite_service_users') || '[]'
+  localStorage.getItem(SERVICE_USERS_KEY) || '[]'
 );
+  serviceUsers = savedServiceUsers;
+  currentServiceUserId = currentServiceUser;
 
 savedServiceUsers.forEach((name) => {
   const exists = Array.from(serviceUser.options)
@@ -362,7 +367,7 @@ if (serviceUsersCard) {
       if (!name) return;
 
       const savedUsers = JSON.parse(
-        localStorage.getItem('carewrite_service_users') || '[]'
+        localStorage.getItem(SERVICE_USERS_KEY) || '[]'
       );
 
       const allUsers = Array.from(serviceUser.options)
