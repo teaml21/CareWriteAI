@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const serviceUser = document.getElementById('serviceUser');
   const settingsCard = document.getElementById('settingsCard');
   const recordBtn = document.getElementById('recordBtn');
+  let currentRecordType = 'General Note';
 
   // 🔑 PIN SETUP — simple & safe
   const CORRECT_PIN = '1234'; // ✅ Change PIN here anytime
