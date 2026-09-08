@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveBtn = document.getElementById('saveBtn');
   const handoverBtn = document.getElementById('tplHandover');
   const newNoteCard = document.getElementById('newNoteCard');
+  const myRecordsCard = document.getElementById('myRecordsCard');
   const serviceUser = document.getElementById('serviceUser');
   const recordBtn = document.getElementById('recordBtn');
 
@@ -93,6 +94,28 @@ Follow-Up Required:
 Additional Information:`;
 
     noteText.value = template;
+    noteText.focus();
+  });
+}
+  // 📁 MY RECORDS
+if (myRecordsCard) {
+  myRecordsCard.addEventListener('click', () => {
+    const records = JSON.parse(localStorage.getItem('carewrite_records') || '[]');
+
+    if (records.length === 0) {
+      alert('📁 No saved records yet');
+      return;
+    }
+
+    const recordList = records.map((record, index) => {
+      const date = new Date(record.createdAt).toLocaleString();
+
+      return `${index + 1}. ${record.serviceUser}
+${date}
+${record.note}`;
+    }).join('\n\n--------------------\n\n');
+
+    noteText.value = recordList;
     noteText.focus();
   });
 }
