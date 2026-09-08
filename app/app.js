@@ -22,6 +22,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const settingsCard = document.getElementById('settingsCard');
   const recordBtn = document.getElementById('recordBtn');
   let currentRecordType = 'General Note';
+  // 👥 LOAD SAVED SERVICE USERS
+const savedServiceUsers = JSON.parse(
+  localStorage.getItem('carewrite_service_users') || '[]'
+);
+
+savedServiceUsers.forEach((name) => {
+  const exists = Array.from(serviceUser.options)
+    .some(option => option.value === name);
+
+  if (!exists) {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name;
+    serviceUser.appendChild(option);
+  }
+});
 
   // 🔑 PIN SETUP — simple & safe
   const CORRECT_PIN = '1234'; // ✅ Change PIN here anytime
