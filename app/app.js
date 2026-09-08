@@ -124,11 +124,7 @@ ${record.note}`;
   });
 }
 
-Then Commit changes, refresh the app, and press 📁 My Records.
 
-You should now get a separate records pop-up instead of your saved records replacing the note you’re currently writing.
-
-Once you confirm that works, the next step will be better: we’ll turn My Records into a proper on-page records panel with individual record cards and View buttons.
 }
   // 🤖 AI FORMAT
 if (aiFormatBtn) {
