@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const handoverBtn = document.getElementById('tplHandover');
   const newNoteCard = document.getElementById('newNoteCard');
   const myRecordsCard = document.getElementById('myRecordsCard');
+  const recordsPanel = document.getElementById('recordsPanel');
+const recordsList = document.getElementById('recordsList');
+const closeRecordsBtn = document.getElementById('closeRecordsBtn');
   const serviceUsersCard = document.getElementById('serviceUsersCard');
   const serviceUser = document.getElementById('serviceUser');
   const settingsCard = document.getElementById('settingsCard');
@@ -265,7 +268,7 @@ if (newNoteCard) {
     noteText.focus();
   });
 }
-  // 📁 MY RECORDS
+// 📁 MY RECORDS
 if (myRecordsCard) {
   myRecordsCard.addEventListener('click', () => {
     const records = JSON.parse(localStorage.getItem('carewrite_records') || '[]');
@@ -275,18 +278,33 @@ if (myRecordsCard) {
       return;
     }
 
-    const recordList = records.map((record, index) => {
+    recordsList.innerHTML = '';
+
+    records.forEach((record) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.marginBottom = '12px';
+      card.style.padding = '12px';
+
       const date = new Date(record.createdAt).toLocaleString();
 
-      return `${index + 1}. ${record.serviceUser}
-${date}
-${record.note}`;
-    }).join('\n\n--------------------\n\n');
+      card.innerHTML = `
+        <h3>${record.serviceUser || 'Service User'}</h3>
+        <p><strong>${date}</strong></p>
+        <p>${record.note}</p>
+      `;
 
-    noteText.value = recordList;
-    noteText.focus();
+      recordsList.appendChild(card);
+    });
+
+    recordsPanel.style.display = 'block';
   });
 }
+
+if (closeRecordsBtn) {
+  closeRecordsBtn.addEventListener('click', () => {
+    recordsPanel.style.display = 'none';
+  });
 
   // 🤖 AI IMPROVE — matches your /api/improve endpoint
   if (aiImprove) {
