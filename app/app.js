@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const editBtn = document.getElementById('editBtn');
   const dailyNoteBtn = document.getElementById('tplDaily');
   const incidentBtn = document.getElementById('tplIncident');
+  const medicationBtn = document.getElementById('tplMed');
   const saveBtn = document.getElementById('saveBtn');
   const serviceUser = document.getElementById('serviceUser');
   const recordBtn = document.getElementById('recordBtn');
@@ -144,6 +145,39 @@ Personal Care:
 Health / Medication:
 
 Support Provided:
+
+Additional Information:`;
+
+    noteText.value = template;
+    noteText.focus();
+  });
+}
+  // 💊 MEDICATION
+if (medicationBtn) {
+  medicationBtn.addEventListener('click', () => {
+    const existing = noteText.value.trim();
+
+    const template =
+`MEDICATION RECORD
+
+Medication / Treatment:
+${existing}
+
+Time Given:
+
+Dose:
+
+Route:
+
+Reason Given:
+
+Outcome / Effect:
+
+Any Refusal or Difficulty:
+
+Any Side Effects / Concerns:
+
+Who Was Informed:
 
 Additional Information:`;
 
