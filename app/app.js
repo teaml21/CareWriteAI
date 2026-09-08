@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const medicationBtn = document.getElementById('tplMed');
   const saveBtn = document.getElementById('saveBtn');
   const handoverBtn = document.getElementById('tplHandover');
+  const newNoteCard = document.getElementById('newNoteCard');
   const serviceUser = document.getElementById('serviceUser');
   const recordBtn = document.getElementById('recordBtn');
 
@@ -214,6 +215,22 @@ Important Information for Next Staff:
 Follow-Up Required:`;
 
     noteText.value = template;
+    noteText.focus();
+  });
+}
+  // 📄 NEW NOTE
+if (newNoteCard) {
+  newNoteCard.addEventListener('click', () => {
+    const hasNote = noteText.value.trim().length > 0;
+
+    if (hasNote) {
+      const confirmed = confirm('Start a new note? Your current unsaved text will be cleared.');
+
+      if (!confirmed) return;
+    }
+
+    noteText.value = '';
+    serviceUser.value = '';
     noteText.focus();
   });
 }
