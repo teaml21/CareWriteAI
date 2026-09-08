@@ -452,47 +452,6 @@ if (serviceUsersCard) {
   });
 }
 
-    const option = document.createElement('option');
-    option.value = name;
-    option.textContent = name;
-    serviceUser.appendChild(option);
-
-    alert('✅ Service user added');
-  });
-}
-  serviceUsersCard.addEventListener('click', () => {
-    const newUser = prompt('👥 Add a new service user name:');
-
-    if (!newUser) return;
-
-    const name = newUser.trim();
-
-    if (!name) return;
-
-    const savedUsers = JSON.parse(
-      localStorage.getItem('carewrite_service_users') || '[]'
-    );
-
-    if (savedUsers.includes(name)) {
-      alert('⚠️ That service user already exists');
-      return;
-    }
-
-    savedUsers.push(name);
-
-    localStorage.setItem(
-      'carewrite_service_users',
-      JSON.stringify(savedUsers)
-    );
-
-    const option = document.createElement('option');
-    option.value = name;
-    option.textContent = name;
-    serviceUser.appendChild(option);
-
-    alert('✅ Service user added');
-  });
-}
   // ⚙️ SETTINGS
 if (settingsCard) {
   settingsCard.addEventListener('click', () => {
