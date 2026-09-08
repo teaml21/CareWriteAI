@@ -156,6 +156,7 @@ if (aiFormatBtn) {
   // 📝 DAILY NOTE
 if (dailyNoteBtn) {
   dailyNoteBtn.addEventListener('click', () => {
+    currentRecordType = 'Daily Note';
     const existing = noteText.value.trim();
 
     const template =
