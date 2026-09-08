@@ -185,6 +185,7 @@ Additional Information:`;
   // 💊 MEDICATION
 if (medicationBtn) {
   medicationBtn.addEventListener('click', () => {
+    currentRecordType = 'Medication';
     const existing = noteText.value.trim();
 
     const template =
