@@ -72,6 +72,7 @@ if (saveBtn) {
   // ⚠️ INCIDENT
 if (incidentBtn) {
   incidentBtn.addEventListener('click', () => {
+    currentRecordType = 'Incident';
     const existing = noteText.value.trim();
 
     const template =
