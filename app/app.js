@@ -60,6 +60,7 @@ if (saveBtn) {
     records.unshift({
       serviceUser: user,
       note: note,
+      recordType: currentRecordType,
       approved: true,
       createdAt: new Date().toISOString()
     });
