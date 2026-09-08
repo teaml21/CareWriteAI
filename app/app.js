@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const noteText = document.getElementById('noteText');
   const aiImprove = document.getElementById('aiImprove');
   const editBtn = document.getElementById('editBtn');
+  const saveBtn = document.getElementById('saveBtn');
   const serviceUser = document.getElementById('serviceUser');
   const recordBtn = document.getElementById('recordBtn');
 
@@ -28,6 +29,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  // ✅ SAVE & APPROVE
+if (saveBtn) {
+  saveBtn.addEventListener('click', () => {
+    const note = noteText.value.trim();
+    const user = serviceUser.value;
+
+    if (!user) {
+      alert('⚠️ Please select a service user');
+      return;
+    }
+
+    if (!note) {
+      alert('⚠️ Please write or record a note first');
+      return;
+    }
+
+    const records = JSON.parse(localStorage.getItem('carewrite_records') || '[]');
+
+    records.unshift({
+      serviceUser: user,
+      note: note,
+      approved: true,
+      createdAt: new Date().toISOString()
+    });
+
+    localStorage.setItem('carewrite_records', JSON.stringify(records));
+
+    alert('✅ Note saved and approved');
+  });
+}
 
   // 🤖 AI IMPROVE — matches your /api/improve endpoint
   if (aiImprove) {
