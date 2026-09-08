@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const handoverBtn = document.getElementById('tplHandover');
   const newNoteCard = document.getElementById('newNoteCard');
   const myRecordsCard = document.getElementById('myRecordsCard');
+  const serviceUsersCard = document.getElementById('serviceUsersCard');
   const serviceUser = document.getElementById('serviceUser');
   const recordBtn = document.getElementById('recordBtn');
 
@@ -307,6 +308,16 @@ ${record.note}`;
       }
     });
   }
+  // 👥 SERVICE USERS
+if (serviceUsersCard) {
+  serviceUsersCard.addEventListener('click', () => {
+    const users = Array.from(serviceUser.options)
+      .filter(option => option.value !== '')
+      .map(option => option.textContent);
+
+    alert('👥 Service Users\n\n' + users.join('\n'));
+  });
+}
 
   // 🎤 RECORD BUTTON — WORKS IN CHROME/EDGE
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
