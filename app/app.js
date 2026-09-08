@@ -124,8 +124,6 @@ ${record.note}`;
   });
 }
 
-
-}
   // 🤖 AI FORMAT
 if (aiFormatBtn) {
   aiFormatBtn.addEventListener('click', () => {
