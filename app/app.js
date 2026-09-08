@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const myRecordsCard = document.getElementById('myRecordsCard');
   const serviceUsersCard = document.getElementById('serviceUsersCard');
   const serviceUser = document.getElementById('serviceUser');
+  const settingsCard = document.getElementById('settingsCard');
   const recordBtn = document.getElementById('recordBtn');
 
   // 🔑 PIN SETUP — simple & safe
@@ -316,6 +317,18 @@ if (serviceUsersCard) {
       .map(option => option.textContent);
 
     alert('👥 Service Users\n\n' + users.join('\n'));
+  });
+}
+  // ⚙️ SETTINGS
+if (settingsCard) {
+  settingsCard.addEventListener('click', () => {
+    alert(
+      '⚙️ CareWrite AI Settings\n\n' +
+      'App: CareWrite AI\n' +
+      'Voice recording: Enabled\n' +
+      'AI formatting: Enabled\n' +
+      'Records: Saved on this device'
+    );
   });
 }
 
