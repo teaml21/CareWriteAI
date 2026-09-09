@@ -136,12 +136,19 @@ if (myRecordsCard) {
   myRecordsCard.addEventListener('click', () => {
     const records = JSON.parse(localStorage.getItem('carewrite_records') || '[]');
 
-    if (records.length === 0) {
+    const selectedUser = serviceUser.value;
+
+  const userRecords = records.filter(record =>
+  record.serviceUser === selectedUser ||
+  record.serviceUserId === selectedUser
+);
+
+    if (userRecords.length === 0) {
       alert('📁 No saved records yet');
       return;
     }
 
-    const recordList = records.map((record, index) => {
+    const recordList = userRecords.map((record, index) => {
       const date = new Date(record.createdAt).toLocaleString();
 
 return `${index + 1}. ${record.serviceUser}
