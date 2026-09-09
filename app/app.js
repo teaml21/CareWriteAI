@@ -411,18 +411,22 @@ if (serviceUsersCard) {
         localStorage.getItem('SERVICE_USERS_KEY') || '[]'
       );
 
-      if (savedUsers.length === 0) {
-        alert('⚠️ There are no added service users to remove');
-        return;
-      }
+  const currentUsers = Array.from(serviceUser.options)
+  .filter(option => option.value !== '')
+  .map(option => option.value);
+
+if (currentUsers.length === 0) {
+  alert('⚠️ There are no added service users to remove');
+  return;
+}
 
       const nameToRemove = prompt(
-        'Enter the name to remove:\n\n' + savedUsers.join('\n')
+        'Enter the name to remove:\n\n' + currentUsers.join('\n')
       );
 
       if (!nameToRemove) return;
 
-      const match = savedUsers.find(
+      const match = currentUsers.find(
         name => name.toLowerCase() === nameToRemove.trim().toLowerCase()
       );
 
@@ -437,7 +441,7 @@ if (serviceUsersCard) {
 
       if (!confirmed) return;
 
-      const updatedUsers = savedUsers.filter(name => name !== match);
+      const updatedUsers = currentUsers.filter(name => name !== match);
 
       localStorage.setItem(
         SERVICE_USERS_KEY,
