@@ -37,14 +37,20 @@ savedServiceUsers.forEach((name) => {
   const exists = Array.from(serviceUser.options)
     .some(option => option.value === name);
 
-  if (!exists) {
+    if (!exists) {
     const option = document.createElement('option');
     option.value = name;
     option.textContent = name;
     serviceUser.appendChild(option);
   }
 });
-
+  
+  if (serviceUser) {
+  serviceUser.addEventListener('change', () => {
+    currentServiceUser = serviceUser.value;
+    currentServiceUserId = serviceUser.value;
+  });
+}
   // 🔑 PIN SETUP — simple & safe
   const CORRECT_PIN = '1234'; // ✅ Change PIN here anytime
 
@@ -81,6 +87,7 @@ if (saveBtn) {
 
     records.unshift({
       serviceUser: user,
+      serviceUserId: currentServiceUserId,
       note: note,
       recordType: currentRecordType,
       approved: true,
