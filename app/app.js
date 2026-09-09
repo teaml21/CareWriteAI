@@ -382,7 +382,7 @@ if (serviceUsersCard) {
       savedUsers.push(name);
 
       localStorage.setItem(
-        'carewrite_service_users',
+        SERVICE_USERS_KEY,
         JSON.stringify(savedUsers)
       );
 
@@ -408,7 +408,7 @@ if (serviceUsersCard) {
     // REMOVE USER
     if (choice === 'REMOVE') {
       const savedUsers = JSON.parse(
-        localStorage.getItem('carewrite_service_users') || '[]'
+        localStorage.getItem('SERVICE_USERS_KEY') || '[]'
       );
 
       if (savedUsers.length === 0) {
@@ -440,7 +440,7 @@ if (serviceUsersCard) {
       const updatedUsers = savedUsers.filter(name => name !== match);
 
       localStorage.setItem(
-        'carewrite_service_users',
+        SERVICE_USERS_KEY,
         JSON.stringify(updatedUsers)
       );
 
