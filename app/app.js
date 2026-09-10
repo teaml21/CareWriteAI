@@ -111,6 +111,27 @@ if (saveBtn) {
 
     localStorage.setItem('carewrite_records', JSON.stringify(records));
 
+    const printWindow = window.open('', '_blank');
+
+printWindow.document.write(`
+  <html>
+    <head>
+      <title>CareWriteAI Record - ${user}</title>
+    </head>
+    <body>
+      <h2>CareWriteAI Care Record</h2>
+      <p><strong>Service User:</strong> ${user}</p>
+      <p><strong>Record Type:</strong> ${currentRecordType}</p>
+      <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+      <hr>
+      <pre style="white-space: pre-wrap; font-family: Arial;">${note}</pre>
+    </body>
+  </html>
+`);
+
+printWindow.document.close();
+printWindow.print();
+
     alert(`✅ Note saved and approved for ${user}`);
   });
 }
