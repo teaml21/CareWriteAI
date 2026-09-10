@@ -314,7 +314,6 @@ if (newNoteCard) {
     }
 
     noteText.value = '';
-    serviceUser.value = '';
     noteText.focus();
   });
 }
