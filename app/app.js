@@ -138,9 +138,8 @@ if (myRecordsCard) {
 
     const selectedUser = serviceUser.value;
 
-  const userRecords = records.filter(record =>
-  record.serviceUser === selectedUser ||
-  record.serviceUserId === selectedUser
+ const userRecords = records.filter(record =>
+  record.serviceUser === selectedUser
 );
 
     if (userRecords.length === 0) {
