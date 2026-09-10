@@ -172,7 +172,7 @@ Date: ${date}
 ${record.note}`;
     }).join('\n\n--------------------\n\n');
 
-    noteText.value = recordList;
+    noteText.value = `Records for ${selectedUser}\n\n${recordList}`;
     noteText.focus();
   });
 }
