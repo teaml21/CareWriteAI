@@ -461,6 +461,13 @@ if (currentUsers.length === 0) {
         }
       });
 
+      if (localStorage.getItem('carewrite_current_service_user') === match) {
+  localStorage.removeItem('carewrite_current_service_user');
+  serviceUser.value = '';
+  currentServiceUser = '';
+  currentServiceUserId = '';
+}
+
       alert('✅ Service user removed');
       return;
     }
