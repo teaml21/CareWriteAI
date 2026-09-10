@@ -1,17 +1,3 @@
-async function testSupabaseConnection() {
-  const { data, error } = await window.carewriteSupabase
-    .from("service_users")
-    .select("*")
-    .limit(1);
-
-  if (error) {
-    console.error("Supabase test failed:", error);
-  } else {
-    console.log("Supabase connected successfully:", data);
-  }
-}
-
-
 // WRAP EVERYTHING — stops PIN/load errors ✅
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -574,4 +560,3 @@ if (settingsCard) {
   });
 
 }); // ✅ FINAL CLOSING BRACKET — DO NOT DELETE
-testSupabaseConnection();
