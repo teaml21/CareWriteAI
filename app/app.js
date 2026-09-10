@@ -11,7 +11,7 @@ async function testSupabaseConnection() {
   }
 }
 
-testSupabaseConnection();
+
 // WRAP EVERYTHING — stops PIN/load errors ✅
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -574,3 +574,4 @@ if (settingsCard) {
   });
 
 }); // ✅ FINAL CLOSING BRACKET — DO NOT DELETE
+testSupabaseConnection();
