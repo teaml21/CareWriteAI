@@ -117,6 +117,20 @@
       email: loginEmail.value.trim(),
       password: loginPassword.value
     });
+    // ✅ KEEP USER LOGGED IN AFTER REFRESH
+async function checkLoginSession() {
+  const { data } = await window.carewriteSupabase.auth.getSession();
+
+  if (data.session) {
+    loginPanel.style.display = "none";
+    pinLock.style.display = "flex";
+  } else {
+    loginPanel.style.display = "block";
+    pinLock.style.display = "none";
+  }
+}
+
+checkLoginSession();
 
     if (error) {
       loginMessage.textContent = "Login failed: " + error.message;
