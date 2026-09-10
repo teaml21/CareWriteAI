@@ -111,7 +111,7 @@ if (saveBtn) {
 
     localStorage.setItem('carewrite_records', JSON.stringify(records));
 
-    alert('✅ Note saved and approved');
+    alert(`✅ Note saved and approved for ${user}`);
   });
 }
   // ⚠️ INCIDENT
