@@ -44,11 +44,26 @@ savedServiceUsers.forEach((name) => {
     serviceUser.appendChild(option);
   }
 });
+
+  const savedCurrentServiceUser = localStorage.getItem('carewrite_current_service_user');
+
+if (
+  serviceUser &&
+  savedCurrentServiceUser &&
+  Array.from(serviceUser.options).some(
+    option => option.value === savedCurrentServiceUser
+  )
+) {
+  serviceUser.value = savedCurrentServiceUser;
+  currentServiceUser = savedCurrentServiceUser;
+  currentServiceUserId = savedCurrentServiceUser;
+}
   
   if (serviceUser) {
   serviceUser.addEventListener('change', () => {
     currentServiceUser = serviceUser.value;
     currentServiceUserId = serviceUser.value;
+    localStorage.setItem('carewrite_current_service_user', serviceUser.value);
   });
 }
   // 🔑 PIN SETUP — simple & safe
