@@ -1,3 +1,17 @@
+async function testSupabaseConnection() {
+  const { data, error } = await window.carewriteSupabase
+    .from("service_users")
+    .select("*")
+    .limit(1);
+
+  if (error) {
+    console.error("Supabase test failed:", error);
+  } else {
+    console.log("Supabase connected successfully:", data);
+  }
+}
+
+testSupabaseConnection();
 // WRAP EVERYTHING — stops PIN/load errors ✅
 document.addEventListener('DOMContentLoaded', () => {
 
