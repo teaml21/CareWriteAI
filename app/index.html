@@ -71,6 +71,17 @@
 
 <!-- ✅ APP LAST -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script
+
+<script>
+  const SUPABASE_URL = "https://bqiwwqfpjshragvydafr.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_kDtl3NezTs_LBvvO6Y2dPg_Sd8eJHjD";
+
+  window.carewriteSupabase = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+</script>
+
 <script src="app.js"></script>
 </body>
 </html>
