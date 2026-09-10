@@ -13,9 +13,30 @@
   <script>eruda.init();</script>
 </head>
 <body>
+<!-- 🔐 SUPABASE LOGIN -->
+<div id="loginPanel" style="padding:20px; text-align:center;">
+  <h2>CareWriteAI Login</h2>
 
+  <input
+    id="loginEmail"
+    type="email"
+    placeholder="Email"
+    style="padding:10px; margin:5px; width:220px;"
+  >
+
+  <input
+    id="loginPassword"
+    type="password"
+    placeholder="Password"
+    style="padding:10px; margin:5px; width:220px;"
+  >
+
+  <button id="loginBtn" class="btn-primary">Login</button>
+
+  <p id="loginMessage"></p>
+</div>
 <!-- 🔒 PIN LOCK — FULL & CLOSED -->
-<div id="pinLock" style="position:fixed;inset:0;background:#1a1111;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;">
+<div id="pinLock" style="position:fixed;inset:0;background:#1a1111;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:9999;">
     <h2 style="color:#009488;margin-bottom:20px;">🔒 CareWrite AI</h2>
     <p style="color:#ccc;">Enter 4‑digit PIN:</p>
     <input type="password" id="pinInput" maxlength="4" placeholder="****" style="padding:15px;font-size:24px;width:150px;text-align:center;border-radius:6px;border:0;margin:15px 0;">
@@ -80,6 +101,32 @@
     SUPABASE_URL,
     SUPABASE_KEY
   );
+</script>
+  <script>
+  const loginBtn = document.getElementById("loginBtn");
+  const loginEmail = document.getElementById("loginEmail");
+  const loginPassword = document.getElementById("loginPassword");
+  const loginMessage = document.getElementById("loginMessage");
+  const loginPanel = document.getElementById("loginPanel");
+  const pinLock = document.getElementById("pinLock");
+
+  loginBtn.addEventListener("click", async () => {
+    loginMessage.textContent = "Signing in...";
+
+    const { data, error } = await window.carewriteSupabase.auth.signInWithPassword({
+      email: loginEmail.value.trim(),
+      password: loginPassword.value
+    });
+
+    if (error) {
+      loginMessage.textContent = "Login failed: " + error.message;
+      return;
+    }
+
+    loginMessage.textContent = "Login successful";
+    loginPanel.style.display = "none";
+    pinLock.style.display = "flex";
+  });
 </script>
 
 <script src="app.js"></script>
