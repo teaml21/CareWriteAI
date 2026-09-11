@@ -560,3 +560,21 @@ if (settingsCard) {
   });
 
 }); // ✅ FINAL CLOSING BRACKET — DO NOT DELETE
+
+async function checkLoginSession() {
+  const loginPanel = document.getElementById("loginPanel");
+  const pinLock = document.getElementById("pinLock");
+
+  const { data: { session } } =
+    await window.carewriteSupabase.auth.getSession();
+
+  if (session) {
+    loginPanel.style.display = "none";
+    pinLock.style.display = "flex";
+  } else {
+    loginPanel.style.display = "block";
+    pinLock.style.display = "none";
+  }
+}
+
+checkLoginSession();
