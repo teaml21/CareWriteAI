@@ -26,24 +26,34 @@ document.addEventListener('DOMContentLoaded', () => {
   const settingsCard = document.getElementById('settingsCard');
   const recordBtn = document.getElementById('recordBtn');
   let currentRecordType = 'General Note';
-  // 👥 LOAD SAVED SERVICE USERS
-const savedServiceUsers = JSON.parse(
-  localStorage.getItem(SERVICE_USERS_KEY) || '[]'
-);
-  serviceUsers = savedServiceUsers;
-  currentServiceUserId = currentServiceUser;
+// 👥 LOAD SERVICE USERS FROM SUPABASE
+async function loadServiceUsers() {
+  const { data, error } = await window.carewriteSupabase
+    .from("service_users")
+    .select("id, name")
+    .order("created_at", { ascending: true });
 
-savedServiceUsers.forEach((name) => {
-  const exists = Array.from(serviceUser.options)
-    .some(option => option.value === name);
+  if (error) {
+    console.error("Could not load service users:", error);
+    return;
+  }
+
+  serviceUsers = data.map(user => user.name);
+
+  data.forEach(user => {
+    const exists = Array.from(serviceUser.options)
+      .some(option => option.value === user.name);
 
     if (!exists) {
-    const option = document.createElement('option');
-    option.value = name;
-    option.textContent = name;
-    serviceUser.appendChild(option);
-  }
-});
+      const option = document.createElement("option");
+      option.value = user.name;
+      option.textContent = user.name;
+      serviceUser.appendChild(option);
+    }
+  });
+}
+
+loadServiceUsers().then(()=> {
 
   const savedCurrentServiceUser = localStorage.getItem('carewrite_current_service_user');
 
@@ -58,6 +68,7 @@ if (
   currentServiceUser = savedCurrentServiceUser;
   currentServiceUserId = savedCurrentServiceUser;
 }
+});
   
   if (serviceUser) {
   serviceUser.addEventListener('change', () => {
