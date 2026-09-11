@@ -381,7 +381,7 @@ if (newNoteCard) {
   // 👥 SERVICE USERS
 // 👥 SERVICE USERS
 if (serviceUsersCard) {
-  serviceUsersCard.addEventListener('click', () => {
+  serviceUsersCard.addEventListener('click', async () => {
 
     const action = prompt(
       '👥 SERVICE USERS\n\n' +
@@ -404,35 +404,42 @@ if (serviceUsersCard) {
       const name = newUser.trim();
       if (!name) return;
 
-      const savedUsers = JSON.parse(
-        localStorage.getItem(SERVICE_USERS_KEY) || '[]'
-      );
+    const { data: { user }, error: userError } =
+  await window.carewriteSupabase.auth.getUser();
 
-      const allUsers = Array.from(serviceUser.options)
-        .filter(option => option.value !== '')
-        .map(option => option.value.toLowerCase());
+if (userError || !user) {
+  alert("⚠️ You must be logged in.");
+  return;
+}
 
-      if (allUsers.includes(name.toLowerCase())) {
-        alert('⚠️ That service user already exists');
-        return;
-      }
+const { data, error } = await window.carewriteSupabase
+  .from("service_users")
+  .insert({
+    name: name,
+    user_id: user.id
+  })
+  .select()
+  .single();
 
-      savedUsers.push(name);
+if (error) {
+  console.error("Could not save service user:", error);
+  alert("⚠️ Could not save service user.");
+  return;
+}
 
-      localStorage.setItem(
-        SERVICE_USERS_KEY,
-        JSON.stringify(savedUsers)
-      );
+serviceUsers.push(name);
 
-      const option = document.createElement('option');
-      option.value = name;
-      option.textContent = name;
-      serviceUser.appendChild(option);
+const option = document.createElement("option");
+option.value = name;
+option.textContent = name;
+serviceUser.appendChild(option);
 
-      alert('✅ Service user added');
-      return;
-    }
+serviceUser.value = name;
+currentServiceUser = name;
+currentServiceUserId = data.id;
 
+alert("✅ Service user added");
+return;
     // VIEW USERS
     if (choice === 'VIEW') {
       const users = Array.from(serviceUser.options)
