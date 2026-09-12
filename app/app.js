@@ -359,7 +359,7 @@ if (newNoteCard) {
   // 👥 SERVICE USERS
 // 👥 SERVICE USERS
 if (serviceUsersCard) {
-  serviceUsersCard.addEventListener('click', () => {
+  serviceUsersCard.addEventListener('click', async () => {
 
     const action = prompt(
       '👥 SERVICE USERS\n\n' +
@@ -447,8 +447,18 @@ if (currentUsers.length === 0) {
 
       if (!confirmed) return;
 
+      const { error: deleteError } = await window.carewriteSupabase
+  .from("service_users")
+  .delete()
+  .eq("name", match);
 
-      Array.from(serviceUser.options).forEach(option => {
+if (deleteError) {
+  console.error("Supabase delete failed:", deleteError);
+  alert("⚠️ Could not remove service user");
+  return;
+}
+
+     Array.from(serviceUser.options).forEach(option => {
         if (option.value === match) {
           option.remove();
         }
