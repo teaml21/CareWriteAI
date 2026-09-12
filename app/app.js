@@ -33,17 +33,6 @@ const savedServiceUsers = JSON.parse(
   serviceUsers = [];
   currentServiceUserId = currentServiceUser;
 
-savedServiceUsers.forEach((name) => {
-  const exists = Array.from(serviceUser.options)
-    .some(option => option.value === name);
-
-    if (!exists) {
-    const option = document.createElement('option');
-    option.value = name;
-    option.textContent = name;
-    serviceUser.appendChild(option);
-  }
-});
 
   const savedCurrentServiceUser = localStorage.getItem('carewrite_current_service_user');
 
