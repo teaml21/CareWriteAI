@@ -447,12 +447,6 @@ if (currentUsers.length === 0) {
 
       if (!confirmed) return;
 
-      const updatedUsers = currentUsers.filter(name => name !== match);
-
-      localStorage.setItem(
-        SERVICE_USERS_KEY,
-        JSON.stringify(updatedUsers)
-      );
 
       Array.from(serviceUser.options).forEach(option => {
         if (option.value === match) {
