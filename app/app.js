@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const savedServiceUsers = JSON.parse(
   localStorage.getItem(SERVICE_USERS_KEY) || '[]'
 );
-  serviceUsers = savedServiceUsers;
+  serviceUsers = [];
   currentServiceUserId = currentServiceUser;
 
 savedServiceUsers.forEach((name) => {
