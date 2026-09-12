@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const serviceUsersCard = document.getElementById('serviceUsersCard');
   const serviceUser = document.getElementById('serviceUser');
   let currentServiceUser = serviceUser ? serviceUser.value : "";
+  if (currentUserDisplay) {
+    currentUserDisplay.innerHTML =
+        `Current service user: <strong>${currentServiceUser || 'None selected'}</strong>`;
+}
   let currentServiceUserId = "";
   let serviceUsers = [];
   const SERVICE_USERS_KEY = "carewrite_service_users";
