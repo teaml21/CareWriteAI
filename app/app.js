@@ -413,6 +413,7 @@ if (serviceUsersCard) {
         JSON.stringify(savedUsers)
       );
 
+      saveServiceUserToSupabase(name);
       const option = document.createElement('option');
       option.value = name;
       option.textContent = name;
