@@ -382,9 +382,6 @@ if (serviceUsersCard) {
       const name = newUser.trim();
       if (!name) return;
 
-      const savedUsers = JSON.parse(
-        localStorage.getItem(SERVICE_USERS_KEY) || '[]'
-      );
 
       const allUsers = Array.from(serviceUser.options)
         .filter(option => option.value !== '')
