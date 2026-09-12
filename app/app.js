@@ -416,9 +416,6 @@ if (serviceUsersCard) {
 
     // REMOVE USER
     if (choice === 'REMOVE') {
-      const savedUsers = JSON.parse(
-        localStorage.getItem('SERVICE_USERS_KEY') || '[]'
-      );
 
   const currentUsers = Array.from(serviceUser.options)
   .filter(option => option.value !== '')
