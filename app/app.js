@@ -636,3 +636,4 @@ async function loadServiceUsersFromSupabase() {
   console.log("✅ Service users loaded from Supabase");
   return true;
 }
+loadServiceUsersFromSupabase();
