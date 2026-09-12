@@ -578,3 +578,28 @@ async function checkLoginSession() {
 }
 
 checkLoginSession();
+// ✅ TEST/SAVE SERVICE USER TO SUPABASE
+async function saveServiceUserToSupabase(name) {
+  const { data: { user }, error: userError } =
+    await window.carewriteSupabase.auth.getUser();
+
+  if (userError || !user) {
+    console.error("Supabase user not logged in", userError);
+    return false;
+  }
+
+  const { error } = await window.carewriteSupabase
+    .from("service_users")
+    .insert({
+      name: name,
+      user_id: user.id
+    });
+
+  if (error) {
+    console.error("Supabase service user save failed:", error);
+    return false;
+  }
+
+  console.log("✅ Service user saved to Supabase:", name);
+  return true;
+}
