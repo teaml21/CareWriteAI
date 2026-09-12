@@ -604,3 +604,35 @@ async function saveServiceUserToSupabase(name) {
   console.log("✅ Service user saved to Supabase:", name);
   return true;
 }
+// ✅ LOAD SERVICE USERS FROM SUPABASE
+async function loadServiceUsersFromSupabase() {
+  const { data, error } = await window.carewriteSupabase
+    .from("service_users")
+    .select("id, name")
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("Could not load service users from Supabase:", error);
+    return false;
+  }
+
+  if (!data || data.length === 0) {
+    console.log("No Supabase service users yet");
+    return false;
+  }
+
+  data.forEach(user => {
+    const exists = Array.from(serviceUser.options)
+      .some(option => option.value === user.name);
+
+    if (!exists) {
+      const option = document.createElement("option");
+      option.value = user.name;
+      option.textContent = user.name;
+      serviceUser.appendChild(option);
+    }
+  });
+
+  console.log("✅ Service users loaded from Supabase");
+  return true;
+}
