@@ -395,12 +395,7 @@ if (serviceUsersCard) {
         return;
       }
 
-      savedUsers.push(name);
-
-      localStorage.setItem(
-        SERVICE_USERS_KEY,
-        JSON.stringify(savedUsers)
-      );
+   
 
       saveServiceUserToSupabase(name);
       const option = document.createElement('option');
