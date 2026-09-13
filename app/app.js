@@ -51,14 +51,24 @@ if (
   currentServiceUser = savedCurrentServiceUser;
   currentServiceUserId = savedCurrentServiceUser;
 }
-  
-  if (serviceUser) {
-  serviceUser.addEventListener('change', () => {
-    currentServiceUser = serviceUser.value;
-    currentServiceUserId = serviceUser.value;
-    localStorage.setItem('carewrite_current_service_user', serviceUser.value);
-  });
-}
+
+ if (serviceUser) {
+    serviceUser.addEventListener('change', () => {
+        currentServiceUser = serviceUser.value;
+        currentServiceUserId = serviceUser.value;
+
+        localStorage.setItem(
+            'carewrite_current_service_user',
+            serviceUser.value
+        );
+
+        if (currentUserDisplay) {
+            currentUserDisplay.innerHTML =
+                `Current service user: <strong>${currentServiceUser || 'None selected'}</strong>`;
+        }
+    });
+} 
+
   // 🔑 PIN SETUP — simple & safe
   const CORRECT_PIN = '1234'; // ✅ Change PIN here anytime
 
