@@ -1,0 +1,10 @@
+{
+  "name": "CareWriteAI",
+  "short_name": "CareWriteAI",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111111",
+  "description": "AI care documentation app for creating and managing care records",
+  "icons": []
+}
