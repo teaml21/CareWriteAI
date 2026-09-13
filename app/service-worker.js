@@ -1,4 +1,4 @@
-const CACHE_NAME = 'carewriteai-v1';
+const CACHE_NAME = 'carewriteai-v2';
 
 const APP_FILES = [
   './',
@@ -6,6 +6,8 @@ const APP_FILES = [
   './app.js',
   './style.css',
   './manifest.json'
+   './icon-192.png',
+  './icon-512.png'
 ];
 
 self.addEventListener('install', event => {
