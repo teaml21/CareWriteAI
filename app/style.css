@@ -204,6 +204,20 @@ h3 { color:#fff; margin-bottom:8px; }
     color: white;
 }
 
+.pilot-warning {
+  background: #fff3cd;
+  color: #664d03;
+  border: 1px solid #ffda6a;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 12px 0 20px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.pilot-warning strong {
+  font-size: 16px;
+}
 .btn-delete {
     background: #991b1b;
     color: white;
