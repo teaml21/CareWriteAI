@@ -633,3 +633,13 @@ async function loadServiceUsersFromSupabase() {
   return true;
 }
 loadServiceUsersFromSupabase();
+
+// Register CareWriteAI service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('./service-worker.js')
+      .then(() => console.log('CareWriteAI service worker registered'))
+      .catch(error => console.error('Service worker registration failed:', error));
+  });
+}
